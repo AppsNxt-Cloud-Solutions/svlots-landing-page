@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SV LOTS DESIGN TOKENS
+   Derived from the Angular site's brand, consolidated into one system.
+   The old site ran three competing accent families (slate+gold chrome, green
+   content, blue footer) across ~40 hardcoded literals. This is the whole
+   palette now — if a colour isn't here, it doesn't ship.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Ink / slate (primary chrome) — from rgb(55,65,81), deepened ───────── */
+  --color-ink-950: #0b1118;
+  --color-ink-900: #131b25;
+  --color-ink-800: #1f2937;
+  --color-ink-700: #374151;
+  --color-ink-600: #4b5563;
+  --color-ink-500: #6b7280;
+  --color-ink-400: #9ca3af;
+  --color-ink-300: #cbd2da;
+  --color-ink-200: #e3e7ec;
+  --color-ink-100: #f1f4f7;
+
+  /* ── Gold (the brand accent) — existing rgb(189,150,102) ──────────────── */
+  --color-gold-700: #8a6636;
+  --color-gold-600: #a87f4f;
+  --color-gold-500: #bd9666;
+  --color-gold-400: #d0ad82;
+  --color-gold-300: #e3c79a;
+  --color-gold-200: #efdcc1;
+  --color-gold-100: #f8f0e3;
+
+  /* ── Forest (secondary, used sparingly for land/growth cues) ──────────── */
+  --color-forest-700: #14532d;
+  --color-forest-600: #166534;
+  --color-forest-500: #1a7431;
+  --color-forest-100: #dcf5e2;
+  --color-forest-50: #f0faf2;
+
+  /* ── Surfaces ─────────────────────────────────────────────────────────── */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8faf9;
+  --color-surface-warm: #fdfaf5;
+
+  /* ── Semantic ─────────────────────────────────────────────────────────── */
+  --color-danger: #b3261e;
+  --color-success: #1a7431;
+
+  /* ── Typography ───────────────────────────────────────────────────────── */
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid type scale — every size in rem, clamped. No px font sizes anywhere. */
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: clamp(1.0625rem, 0.35vw + 0.98rem, 1.1875rem);
+  --text-xl: clamp(1.1875rem, 0.5vw + 1.07rem, 1.375rem);
+  --text-2xl: clamp(1.375rem, 1vw + 1.15rem, 1.75rem);
+  --text-3xl: clamp(1.625rem, 1.6vw + 1.25rem, 2.25rem);
+  --text-4xl: clamp(2rem, 2.6vw + 1.4rem, 3rem);
+  --text-5xl: clamp(2.375rem, 4vw + 1.4rem, 4rem);
+  --text-6xl: clamp(2.75rem, 5.6vw + 1.4rem, 5.25rem);
+  --text-7xl: clamp(3rem, 7vw + 1.25rem, 6.5rem);
+
+  /* ── Motion ───────────────────────────────────────────────────────────── */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Radii / shadow ───────────────────────────────────────────────────── */
+  --radius-card: 0.75rem;
+  --radius-pill: 999px;
+  --shadow-soft: 0 1px 2px rgb(11 17 24 / 0.04), 0 8px 24px -12px rgb(11 17 24 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(11 17 24 / 0.05), 0 24px 48px -20px rgb(11 17 24 / 0.22);
+  --shadow-gold: 0 12px 40px -16px rgb(189 150 102 / 0.55);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  * {
+    min-width: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* NOTE: deliberately no `scroll-behavior: smooth` — Lenis owns scrolling,
+       and Next 16 no longer overrides this during navigation. */
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--color-ink-900);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* The old site defined zero focus styles. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold-600);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-ink-900);
+  }
+
+  /* Anchor targets clear the sticky header instead of hiding under it. */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@utility container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Gold hairline divider used under section eyebrows. */
+@utility rule-gold {
+  background: linear-gradient(
+    to right,
+    var(--color-gold-500),
+    color-mix(in oklab, var(--color-gold-500) 20%, transparent)
+  );
+}
+
+@utility text-balance-tight {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+/* Film grain overlay for hero sections — pure CSS, no image request. */
+@utility grain {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION
+   The old site ran an infinite 1.3s blink on the header tagline (a WCAG 2.2.2
+   failure) with no opt-out. Everything here can be stilled.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
