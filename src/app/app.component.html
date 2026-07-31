@@ -1,0 +1,629 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+ :host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box; /* Ensure padding and borders are included in total width and height */
+}
+
+body {
+    margin: 0; /* Remove default body margin */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    padding-top: 150px;
+}
+
+.main-content {
+    margin-top: 130px; 
+    /* padding: 20px; */
+}
+
+
+/* Elevating Text Styles */
+.elevating-text {
+    color: #f1e67b; /* Text color */
+    font-size: 18px; /* Adjust the font size as needed */
+    white-space: nowrap; /* Prevent the text from wrapping into multiple lines */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: blink-text 1.3s infinite; /* Apply blinking effect */
+}
+
+/* Blinking text animation */
+@keyframes blink-text {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Navbar Container */
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensure there's space between logo, text, and menu items */
+    max-width: 1200px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 5px;
+}
+
+/* Logo Styling */
+.logo {
+    height: 120px; /* Adjust logo height */
+    margin-right: 20px; /* Space between the logo and the elevating text */
+}
+
+.nav-bar {
+    background-color: rgb(55, 65, 81);
+    padding: 1px;
+    position: fixed; /* Fix the navbar to the top */
+    width: 100%;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar stays above other content */
+    height: 120px; /* Fixed height for navbar */
+}
+
+/* Navbar Menu */
+.nav-menu {
+    display: flex;
+    gap: 8px; /* Space between menu items */
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size:18px;
+    padding: 8px;
+    transition: color 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav-menu a:hover {
+    color: #85d699;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown .dropbtn {
+    background-color: transparent;
+    color: #ffffff;
+    padding: 7px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+    margin-left:5px;
+}
+
+.dropdown-icon {
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+    color:black;
+    font-weight: bold;
+}
+
+.dropdown-content.show {
+    display: none;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #1a7431;
+    color: #ffffff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Hamburger Icon (for small screens) */
+.hamburger {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    margin-right: 15px;
+    display: none; /* Hidden on larger screens */
+}
+
+/* Media Query for Mobile Screens */
+@media screen and (max-width: 767px) {
+    .elevating-text {
+        font-size: 20px; 
+    }
+
+    .logo {
+        /* height: 100px; */
+        margin-right: 0;
+    }
+
+    .nav-container {
+        padding: 0 10px; 
+        position: relative; /* Allow for absolute positioning of elevating text */
+    }
+
+    .logo {
+        width: 85px; 
+        /* height: auto;  */
+        margin-left: -20px;
+        flex-shrink: 0;
+    }
+
+    .elevating-text {
+        font-size: 14px; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: absolute; /* Center the text within the container */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .hamburger {
+        display: block;  
+        font-size: 20px;
+        color: white;
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    /* Overlay Styles for Nav Menu */
+    .nav-overlay {
+        display: none; /* Hide overlay initially */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: opacity 0.3s ease;
+    }
+
+    .nav-overlay.open {
+        display: flex;
+    }
+
+    /* Center Nav Items in Overlay */
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-menu a
+    {
+      font-size: 20px;
+        color: white;
+        text-decoration: none;
+        /* padding: 10px; */
+        transition: color 0.3s;
+        align-items: center;
+        text-align: center;
+        margin-left:5px;
+    }
+
+    .dropdown .dropbtn {
+        font-size: 20px;
+        color: white;
+        text-decoration: none;
+        /* padding: 10px; */
+        transition: color 0.3s;
+        align-items: center;
+        text-align: center;
+        margin-left:15px;
+    }
+
+    .nav-menu a:hover,
+    .dropdown .dropbtn:hover {
+        color: #a3dbbf; /* Light green on hover */
+    }
+
+    .dropdown:hover .dropdown-content {
+     display: block;
+     }
+
+    /* Hide Logo Only When Menu Overlay is Open */
+    .nav-overlay.open ~ .nav-container .logo {
+        display: none;
+    }
+
+    .dropdown-content a {
+        color: black;
+        font-size: 16px;
+    }
+    .dropbtn a{
+      text-align: center;
+    }
+}
+
+/* Company Links Section */
+.company-links-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: rgb(55, 65, 81);
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.company-links-section::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Company Links Container */
+.company-links-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap:10px;
+}
+
+/* Company Info */
+.company-infor {
+    display: flex;
+    align-items: center;
+    flex: 2;
+    gap: 20px;
+    padding-top: -20px;
+}
+
+.company-infor p {
+    font-size: 16px;
+    text-align: justify;
+}
+
+.company-logo {
+    max-width: 150px;
+    margin-top: -35px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* Company Text */
+.company-text h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 10px;
+    margin-top: 5px;
+    color: rgb(189, 150, 102);
+    font-weight: bold;
+}
+
+.company-text p {
+    line-height: 1.4;
+    color: white;
+}
+
+/* Useful Links */
+.useful-links {
+    flex: 1;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.useful-links h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 10px;
+    color: rgb(189, 150, 102);
+    font-weight: bold;
+}
+
+.useful-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.useful-links li {
+    margin-bottom: 10px;
+}
+
+.useful-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.useful-links a:hover {
+    text-decoration: underline;
+}
+
+/* Office Location */
+.office-location {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.office-location h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-bottom: 10px;
+    color: rgb(189, 150, 102);
+    font-weight: bold;
+}
+
+  .office-location p {
+      font-size: 16px;
+      color:#ffffff;
+  }
+
+  .office-location a{
+    color:white;
+  }
+
+ /* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .company-links-container {
+        flex-direction: column;  /* Stack elements vertically */
+        align-items: center;
+    }
+
+    /* Aligning content in the center for small screens */
+    .company-infor, .useful-links, .office-location {
+        text-align: center;
+        margin-bottom: 20px;
+        width: 100%;  /* Full-width for each section */
+    }
+
+    /* Add border line after each section */
+    .company-infor:not(:last-child), 
+    .useful-links:not(:last-child), 
+    .office-location:not(:last-child) {
+        border-bottom: 1px solid #fffefe;
+        padding-bottom: 20px; /* Add space between content and border */
+    }
+
+    /* Adjust image size */
+    .company-logo {
+        max-width: 100px;
+        margin: 0 auto;
+    }
+
+    /* Adjust font sizes */
+    .company-text h4, .useful-links h3, .office-location h3 {
+        font-size: 18px;
+    }
+
+    .company-text p, .useful-links a, .office-location p {
+        font-size: 16px;
+    }
+
+    .useful-links {
+    flex: 1;
+    margin-left: 0px;
+    text-align: center;
+}
+}
+
+@media (max-width: 480px) {
+    .company-links-section {
+        padding: 15px;
+    }
+
+    .company-text p, .useful-links a, .office-location p {
+        font-size: 14px;
+    }
+}
+
+
+    
+  /* Footer Section Styles */
+  .footer-section {
+    background-color: #023683; /* Dark background color */
+    color: white;
+    padding: 20px;
+    text-align: center; /* Center all text inside footer */
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Align content to the center of the page */
+    margin: 0 auto;
+  }
+  
+  .footer-content .footer-links,
+  .footer-content .copyright,
+  .footer-content .developed-by {
+    margin: 0 20px;
+  }
+  
+  .footer-content .copyright {
+    flex: 1; /* Allow copyright to take available space */
+    text-align: center; /* Center text inside copyright section */
+    margin-left:50px;
+  }
+  
+  .footer-content a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer-content a:hover {
+    text-decoration: underline;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-content .footer-links,
+    .footer-content .copyright,
+    .footer-content .developed-by {
+      margin: 10px 0;
+    }
+  }
+
+  /* Add separator styles */
+.dropdown-content .dropdown-separator {
+    border: none;
+    border-top: 2.5px solid #919191;
+    margin: 0;
+    padding: 0;
+}
+
+.nested-dropdown {
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+
+  </style>
+
+
+  <div class="nav-bar">
+    <div class="nav-container">
+      <img src="assets/logo-new.png" alt="SV Lots Logo" class="logo">
+      
+      <!-- Add the text in a new div here -->
+      <div class="elevating-text typing-effect">Elevating Value of Property</div>
+    
+      <!-- Hamburger Icon for Small Screens -->
+      <div class="hamburger" (click)="toggleMenu()" *ngIf="!isMenuOpen">
+        &#9776;
+      </div>
+    
+      <!-- Navigation Menu Overlay -->
+      <div class="nav-overlay" [ngClass]="{'open': isMenuOpen}">
+        <nav class="nav-menu">
+          <a routerLink="/main" (click)="closeMenu()">Home</a>
+          <a routerLink="/about-us" (click)="closeMenu()">About Us</a>
+          <a routerLink="/services" (click)="closeMenu()">Services</a>
+          <a routerLink="/projectcards" (click)="closeMenu()">Projects</a>
+
+          <div class="dropdown">
+            <a class="dropbtn" (click)="toggleDropdown($event)">
+              Products <span class="dropdown-icon"></span>
+            </a>
+          
+            <div class="dropdown-content" [ngClass]="{'show': isDropdownOpen}">
+              <!-- First Level: Models & Tools -->
+              <a routerLink="/products/flyers" (click)="closeMenu()">Models</a>
+              <a href="#" (click)="toggleTools($event)">Tools</a>
+          
+              <!-- Second Level: Shown only when Tools is open -->
+              <div *ngIf="isToolsOpen" class="nested-dropdown">
+                <a routerLink="/calculator" (click)="closeMenu()">Calculator</a>
+              </div>
+            </div>
+          </div>
+            
+          <a routerLink="/contactus" (click)="closeMenu()">Contact Us</a>
+          <a routerLink="/blog" (click)="closeMenu()">Blog</a>
+          <a routerLink="/gallery" (click)="closeMenu()">Gallery</a>
+          <a routerLink="/login" (click)="closeMenu()">Login</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+  
+  
+  <!-- Company Info and Links Section -->
+  <div class="company-links-section">
+    <div class="company-links-container hidden" id="company-links-section">
+      <div class="company-infor">
+        <img src="assets/logo-new.png" alt="Company Logo" class="company-logo">
+        <div class="company-text">
+          <h4>SV Lots India Pvt Ltd</h4>
+          <p>SV Lots is a dedicated real estate platform, committed to serving the value of property in a way that benefits both buyers and sellers</p>
+          <p>Our mission is to help clients maximize their profits, not just financially but through comprehensive property solutions that enhance long-term value.</p>
+        </div>
+      </div>
+      <div class="useful-links">
+        <h3>USEFUL LINKS</h3>
+        <ul>
+          <li><a routerLink="/about-us">About Us</a></li>
+          <li><a routerLink="/products/flyers">Products</a></li>
+          <li><a routerLink="/projectcards">Projects</a></li>
+          <li><a routerLink="/gallery">Gallery</a></li>
+          <li><a routerLink="/contactus">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="office-location">
+        <h3>OFFICE LOCATION</h3>
+        <p>SV Lots, "Omkara" 5th cross SIT Extension, Tumkur - 572102</p>
+        <p>
+            Email: 
+            <i class="far fa-envelope" style="margin-right: 8px;"></i> 
+            <a href="mailto:info@svlots.com">info@svlots.com</a>
+        </p>
+    </div>
+    </div>
+  </div>
+  
+    <!-- Footer Section -->
+    <div class="footer-section">
+      <div class="footer-content">
+        <div class="footer-links">
+          <p> privacy-policy | Terms Of Use</p>
+          <!-- <a href="#privacy-policy">Privacy Policy | </a> -->
+          <!-- <a href="#terms-of-use">Terms of Use</a> -->
+        </div>
+        <div class="copyright">
+          <p>Copyright &copy; 2024 SV Lots India Pvt Ltd</p>
+        </div>
+        <div class="developed-by">
+          <p>Developed by TechnoNova Pvt Ltd.</p>
+        </div>
+      </div>
+    </div>

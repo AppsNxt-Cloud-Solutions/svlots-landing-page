@@ -1,0 +1,218 @@
+<style>
+
+/* Tile Container */
+.tile-container {
+  display: flex;
+  flex-wrap: wrap;  /* Allow tiles to wrap onto new lines if necessary */
+  justify-content: center; /* Center tiles horizontally */
+  align-items: center; /* Center tiles vertically */
+  height: auto; /* Allow the height to adjust based on content */
+  background: url('https://www.transparenttextures.com/patterns/wood.png'), /* Fabric pattern */
+    linear-gradient(135deg, #a0e1f7, #1d4f72); /* Light blue to teal */
+  background-size: cover; /* Ensure the background image covers the entire container */
+  padding: 20px 220px;
+}
+
+/* Header Content inside Tile Container */
+.header-content {
+  text-align: center;
+  margin-bottom: 40px; /* Space below the header */
+  width: 100%;
+}
+
+.header-content h1 {
+  font-size: 36px;
+  color: #ffffff; /* Dark blue */
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.header-content h2 {
+  font-size: 28px;
+  color: #ffffff; /* Teal */
+  margin-bottom: 15px;
+}
+
+.header-content p {
+  font-size: 22px;
+  color: #000000;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto; /* Center the paragraph */
+
+}
+
+/* Tile Styles */
+.tile {
+  background: linear-gradient(135deg, #1b6d9a, #004f6d); /* Dark teal to deep blue */
+  border-radius: 16px;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px; /* Increased width */
+  height: 300px; /* Increased height */
+  margin: 20px 40px; /* Increased space on the left and right */
+  text-decoration: none; /* Remove underline from the tile links */
+    }
+
+
+  .tile-content h2 {
+    font-size: 28px; /* Adjusted font size for mobile */
+    color:rgb(233, 233, 108);
+  }
+
+  .tile-content p {
+    font-size: 20px; /* Adjusted font size for mobile */
+    text-align: justify;
+    padding:15px;
+  }
+
+  .header-content p {
+    font-size: 22px; /* Adjust paragraph font size for mobile */
+  }
+
+  /* Style for Know More link */
+    .know-more {
+    margin-top: 10px; /* Add space above the link */
+    text-align: center;
+    }
+
+    .know-more-link {
+    font-size: 16px;
+    color: #ffffff; /* White color for the link */
+    text-decoration: none; /* Remove underline from link */
+    background-color: #004f6d; /* Button-like background */
+    padding: 8px 16px; /* Padding for the button effect */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.3s ease-in-out;
+    }
+
+    .know-more-link:hover {
+    background-color: #1b6d9a; /* Change background color on hover */
+    }
+
+
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+  .tile {
+    width: 70%; /* Make tiles wider for mobile */
+    height: 250px; /* Adjust height for mobile */
+    margin: 10px 20px; /* Adjusted margin with increased space on left and right */
+  }
+
+  .tile-content h2 {
+    font-size: 24px; /* Adjusted font size for mobile */
+  }
+
+  .tile-content p {
+    font-size: 18px; /* Adjusted font size for mobile */
+  }
+
+  .tile-container {
+    padding: 10px; /* Reduced padding for mobile */
+  }
+
+  .header-content p {
+    font-size: 16px; /* Adjust paragraph font size for mobile */
+  }
+}
+
+/* Extra Small Devices */
+@media (max-width: 480px) {
+  .tile {
+    width: 70%; /* Wider for extra small devices */
+    height: 250px; /* Adjust height automatically */
+    margin: 5px 10px; /* Reduced margin for extra small devices */
+  }
+
+  .tile-content h2 {
+    font-size: 24px; /* Further reduced font size */
+  }
+
+  .tile-content p {
+    font-size: 18px; /* Further reduced font size */
+  }
+
+  .header-content p {
+    font-size: 14px; /* Further reduced font size */
+  }
+}
+
+  </style>
+  
+  <div class="tile-container">
+    <!-- Header Section inside the Tile Container -->
+    <div class="header-content">
+      <h1>SV Lots India Pvt Ltd</h1>
+      <h2>Property Models</h2>
+      <p>Explore the diverse property models we offer at SV Lots. From agricultural land to residential plots, we have tailored solutions for every investment need.</p>
+    </div>
+  
+    
+ 
+    <!-- <a href="https://sathyananda.balajitransports.in" class="tile">
+      <div class="tile-content">
+        <h2>Revenue Model</h2>
+        <p>Discover our innovative revenue models tailored to maximize returns.</p>
+      </div>
+      <div class="know-more">
+        <a href="http://localhost:4200/knowmore" class="know-more-link">Know More</a>
+      </div>
+    </a>
+  
+   
+    <a href="https://layout.balajitransports.in" class="tile">
+      <div class="tile-content">
+        <h2>Layout Model</h2>
+        <p>View our layout models to understand the various property configurations.</p>
+      </div>
+      <div class="know-more">
+        <a href="http://localhost:4200/knowmore" class="know-more-link">Know More</a>
+      </div>
+    </a>
+  
+
+    <a href="/projects/sites-plot" class="tile">
+      <div class="tile-content">
+        <h2>Sites(Plot) Model</h2>
+        <p>Explore agricultural land options for investment and cultivation.</p>
+      </div>
+      <div class="know-more">
+        <a href="http://localhost:4200/knowmore" class="know-more-link">Know More</a>
+      </div>
+    </a>
+  
+
+    <a href="/projects/building-structural" class="tile">
+      <div class="tile-content">
+        <h2>Building (Structural) Model</h2>
+        <p>Check out our rental properties, offering flexible leasing options.</p>
+      </div>
+      <div class="know-more">
+        <a href="http://localhost:4200/knowmore" class="know-more-link">Know More</a>
+      </div>
+    </a>
+  
+
+    <a href="https://rentalproperty.balajitransports.in" class="tile">
+      <div class="tile-content">
+        <h2>Rental Model</h2>
+        <p>Check out our rental properties, offering flexible leasing options.</p>
+      </div>
+      <div class="know-more">
+        <a href="http://localhost:4200/knowmore" class="know-more-link">Know More</a>
+      </div>
+    </a> -->
+
+
+
+</div>

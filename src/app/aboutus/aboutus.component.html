@@ -1,0 +1,863 @@
+<style>
+   .light-green-section {
+    background-color: rgb(236, 255, 232);
+    padding: 5px;
+    text-align: center; /* Center text and button */
+    margin: 2px 0; /* Space around the section */
+}
+
+.light-green-section button {
+    background-color: rgb(236, 255, 232);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    /* font-weight: bold; */
+    margin-top: 2px; /* Space above button */
+}
+
+.light-green-section button:hover {
+    /* background-color: #ddd; */
+    background-color: rgb(190, 230, 182);
+}
+
+
+    .home-button {
+  background-color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.about-section { 
+  width: 100%;
+  padding:10px 0;
+  /* background-color: #f5f5f5;  */
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.about-content {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  gap: 20px; /* Spacing between text and photo sections */
+  align-items: center;
+}
+
+.text-content1, .photo-collage {
+  flex: 1; /* Both sections take up equal space */
+}
+
+/* Ensure photos and text stack vertically on smaller screens */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .text-content1, .photo-collage {
+    width: 100%;
+  }
+}
+
+
+@keyframes fadeInSlideLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-150px);
+    }
+    100% {
+        opacity: 0.7;
+        transform: translateX(0);
+    }
+}
+
+/* Text content styles */
+.text-content1 {
+  flex: 1;
+  max-width: 90%;
+  text-align: justify;
+  font-family:serif;
+}
+
+.text-content1 h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color:rgb(175, 36, 36);
+  font-family:serif;
+}
+
+.text-content1 p  {
+  /* font-size: 20px; */
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Photo collage styles */
+.photo-collage {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  grid-gap: 10px;
+  position: relative;
+}
+
+/* Collage image styles */
+.collage-img {
+  width: 100%; /* Full width to maintain grid layout */
+  height: 200px; /* Set a fixed height */
+  object-fit: cover; /* Maintain aspect ratio */
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border: 4px solid rgb(87, 87, 87);
+}
+
+.collage-img:hover {
+    transform: scale(1.3);
+}
+
+/* Ensure photos and text stack vertically on smaller screens */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column; /* Stack text and photos */
+    align-items: center; /* Center align items */
+    padding: 10px; /* Add padding for better spacing */
+  }
+  
+  .text-content1 {
+    width: 100%; /* Ensure full width for text content */
+    margin-bottom: 20px; /* Spacing below text */
+  }
+
+  .photo-collage {
+    width: 100%; /* Ensure full width */
+    display: flex; /* Use flex to stack images vertically */
+    flex-direction: column; /* Stack images vertically */
+    gap: 10px; /* Spacing between images */
+    align-items: center;
+  }
+
+  .collage-img {
+    width: 90%; /* Full width for images */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; 
+    box-shadow: none;
+    align-items: center;
+  }
+}
+
+/* Why T Homes Section - Full Width Background */
+.why-section {
+  width: 100vw; 
+  background-color: #cee1f5; 
+  padding: 40px 0;
+  animation: fadeInSlideUp 1.5s ease-in-out;
+}
+
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Inner Content Wrapper to Center Content */
+.why-section-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px; 
+  padding: 5px;
+  gap: 20px; 
+  color: white;
+}
+
+/* Video Content Styling */
+.video-content {
+  flex: 1;
+  max-width: 50%;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Content Styling */
+.text-content {
+  flex: 1;
+  max-width: 50%;
+  padding: 20px;
+  margin-left:30px;
+}
+
+.text-content h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-align: left; 
+  color: rgb(153, 28, 28);
+  font-weight: bold;
+}
+
+.text-content p {
+  /* font-size: 20px; */
+  line-height: 1.6;
+  margin-bottom: 10px;
+  text-align: justify;
+  color: rgb(0, 0, 0);
+  font-family:Arial, Helvetica, sans-serif;
+  
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .why-section-content {
+    flex-direction: column;
+    max-width:90%;
+  }
+
+  .video-content, .text-content {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .text-content {
+    margin-top: 20px;
+  }
+}
+
+/* Meet Our Visionary Section */
+.visionary-section {
+  width: 100vw; 
+  background-color: #ffffff; 
+  padding: 20px 0;
+}
+
+/* Inner Content Wrapper */
+.visionary-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px; 
+  padding: 0 20px;
+  gap: 20px;
+}
+
+/* Photo Styling */
+.visionary-photo {
+  flex: 1;
+  max-width: 40%;
+  height: auto;
+  border: 5px solid #727272; 
+  border-radius: 5px;
+  overflow: hidden; 
+  margin-right:40px;
+  margin-left:65px;
+}
+
+.visionary-photo img {
+  width: 100%; 
+  height: 500px; 
+  object-fit: fill; 
+  border-radius: 5px;
+}
+
+/* Text Content Styling */
+.visionary-text {
+  flex: 1;
+  max-width: 60%; 
+}
+
+.visionary-text h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center;
+  color:rgb(38, 38, 156);
+}
+
+.visionary-text h3 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: rgb(153, 28, 28);
+  font-weight: bold;
+}
+
+.visionary-text p {
+  /* font-size: 16px; */
+  line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 10px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .visionary-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .visionary-text {
+    max-width: 90%;
+    margin: 0;
+  }
+
+  .visionary-photo{
+    max-width:90%;
+  }
+
+  .visionary-photo img {
+    height: 250px; /* Adjust height for smaller screens */
+  }
+
+  .visionary-text {
+    margin-top: 20px;
+  }
+}
+
+/* Chief Mentor Section */
+.mentor-section {
+  width: 100vw; /* Full width of the viewport */
+  background-color: #effff3; /* Light green background */
+  padding: 40px 0; /* Padding for top and bottom */
+}
+
+.mentor-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1000px; /* Increased max width for more space */
+  padding: 0 20px;
+  gap: 30px; /* Increased space between text and photo */
+  max-width: 1200px; 
+}
+
+/* Text Content Styling */
+.mentor-text {
+  flex: 2; /* Increased flex to give more space to text */
+  max-width: 50%; /* Adjust text area width */
+}
+
+.mentor-text h2 {
+  font-size: 30px;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+  color: rgb(153, 28, 28);
+  font-weight: bold;
+}
+
+.mentor-text h3 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  text-align: center; /* Center the subheading */
+  color:rgb(8, 8, 85);
+  font-weight: bold;
+}
+
+.mentor-text p {
+  /* font-size: 16px; */
+  line-height: 1.6;
+  text-align: justify;
+  margin-bottom: 10px;
+  font-family :'Times New Roman', Times, serif;
+}
+
+/* Photo Styling */
+.mentor-photo {
+  flex: 1;
+  max-width: 40%; /* Adjust photo area width */
+  margin-left:20px;
+}
+
+.mentor-photo img {
+  width: 350px; /* Increased width */
+  height: 450px; /* Maintain height */
+  object-fit: cover; /* Cover the image area */
+  border: 5px solid #616161; /* Border for the photo */
+  border-radius: 7px;
+  margin-left:-30px;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .mentor-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .mentor-text, .mentor-photo {
+    max-width: 90%;
+    margin: 0;
+  }
+
+  .mentor-photo img {
+    width: 230px; /* Adjust width for smaller screens */
+    height: 350px; /* Adjust height for smaller screens */
+    margin-left: 16px;
+  }
+
+  .mentor-text {
+    margin-top: 20px;
+  }
+}
+
+/* Vision Section */
+.vision-section {
+  width: 100vw; /* Full width of the viewport */
+  background-color: #ffffff; /* Light green background */
+  padding: 20px 0; /* Padding for top and bottom */
+}
+
+.vision-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px; /* Max width for better spacing */
+  padding: 0 20px;
+  gap: 30px; /* Space between text and photo */
+}
+
+/* Text Content Styling */
+.vision-text {
+  flex: 1;
+  max-width: 50%; /* Adjust width to be more responsive */
+  margin-left: 85px;
+}
+
+.vision-text h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+  color: rgb(153, 28, 28);
+  font-weight: bold;
+}
+
+.vision-text h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+  color:rgb(26, 26, 141);
+  font-weight: bold;
+}
+.vision-text p {
+  /* font-size: 16px; */
+  line-height: 1.6;
+  text-align: justify; /* Center the paragraph text */
+  font-family:'Times New Roman', Times, serif;
+}
+
+/* Photo Styling */
+.vision-photo {
+  flex: 1;
+  max-width: 50%; /* Adjust width to be more responsive */
+  margin-left:30px;
+}
+
+.vision-photo img {
+  width: 400px; /* Fixed width */
+  height: 300px; /* Fixed height */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  border: 5px solid #505050; /* Border for the photo */
+  border-radius: 10px;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .vision-content {
+    flex-direction: column; /* Stack elements vertically */
+    text-align: center; /* Center text */
+    align-items: center; /* Center align child elements */
+  }
+
+  .vision-text, .vision-photo {
+    max-width: 100%;
+    margin: 0; /* Remove margins to avoid overflow */
+  }
+
+  .vision-photo img {
+    width: 80%; /* Adjust width for smaller screens */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure image behaves as block element */
+    margin: 0 auto; /* Center the image horizontally */
+  }
+
+  .vision-text {
+    margin-top: 20px; /* Space between text and images */
+  }
+}
+
+
+/* Our Mission Section */
+.mission-section {
+  width: 100vw; /* Full width of the viewport */
+  background-color: #effff3; /* Light green background */
+  padding: 40px 0; /* Padding for top and bottom */
+}
+
+.mission-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px; /* Max width for better spacing */
+  padding: 0 20px;
+  gap: 10px; /* Space between photo and text */
+}
+
+/* Photo Styling */
+.mission-photo {
+  flex: 1;
+  max-width: 50%; /* Adjust width to be more responsive */
+  margin-left:50px;
+}
+
+.mission-photo img {
+  width: 400px; /* Fixed width */
+  height: 300px; /* Fixed height */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  border: 5px solid #505050; /* Border for the photo */
+  border-radius: 10px;
+  margin-left:-50px;
+}
+
+/* Text Content Styling */
+.mission-text {
+  flex: 1;
+  max-width: 35%; /* Adjust width to be more responsive */
+  /* margin-left: -50px; */
+}
+
+.mission-text h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+  color:rgb(204, 59, 59);
+}
+
+.mission-text h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading */
+  font-weight: bold;
+  color:rgb(33, 33, 155);
+}
+
+.mission-text p {
+  /* font-size: 16px; */
+  line-height: 1.6;
+  text-align: justify;
+  font-family:'Times New Roman', Times, serif;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .mission-content {
+    flex-direction: column; /* Stack elements vertically */
+    text-align: center; /* Center text */
+    align-items: center; /* Center align child elements */
+  }
+
+  .mission-photo, .mission-text {
+    max-width: 90%;
+    margin: 0; /* Remove margins to avoid overflow */
+  }
+
+  .mission-photo img {
+    width: 80%; /* Adjust width for smaller screens */
+    height: 150px; /* Maintain aspect ratio */
+    margin: 0 auto; /* Center the image horizontally */
+    display: block; /* Ensure image behaves as block element */
+    object-fit: cover; /* Maintain aspect ratio without distortion */
+  }
+
+  .mission-text {
+    margin-top: 20px; /* Space between text and images */
+  }
+}
+
+
+.text-content1 p,
+.text-content p,
+.vision-text p,
+.visionary-text p,
+.mentor-text p {
+  font-size: 20px; /* Default for larger screens */
+  line-height: 1.6;
+  margin-bottom: 10px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .text-content1 p,
+  .text-content p,
+  .vision-text p,
+  .visionary-text p,
+  .mentor-text p {
+    font-size: 16px; /* Font size for smaller screens */
+  }
+}
+
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-in-out;
+}
+
+/* Initially hidden */
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-in-out;
+}
+
+/* When visible */
+.slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Example CSS for fading in */
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+/* Initially hidden */
+.rotate-in {
+  opacity: 0;
+  transform: rotate(15deg);
+  transition: all 0.8s ease-in-out;
+}
+
+/* When visible */
+.rotate-in.visible {
+  opacity: 1;
+  transform: rotate(0);
+}
+/* Initially hidden */
+.zoom-in {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.5s ease-in-out;
+}
+
+/* When visible */
+.zoom-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Initially hidden */
+.slide-from-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s ease-in-out;
+}
+
+/* When visible */
+.slide-from-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Initially hidden */
+.slide-from-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s ease-in-out;
+}
+
+/* When visible */
+.slide-from-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Initially hidden */
+.bounce-in {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: all 0.6s ease-in-out;
+}
+
+/* When visible */
+.bounce-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: bounce 0.6s ease-in-out forwards;
+}
+
+/* Keyframes for bouncing effect */
+@keyframes bounce {
+  0%, 100% { transform: translateY(-30px); }
+  50% { transform: translateY(0); }
+}
+
+.photo-content {
+    flex: 1; /* Allow this div to grow */
+    max-width: 100%; /* Prevent it from exceeding 100% */
+  }
+
+  .text-content {
+    flex: 2; /* Allow this div to take more space */
+    padding-left: 10px; /* Add some space between text and image */
+  }
+
+  img {
+    width: 100%; /* Make the image take full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure it behaves like a block element */
+  }
+
+  </style>
+
+  <!-- <div class="light-green-section">
+      <button (click)="goToHome()">Home >></button>
+  </div> -->
+    
+<div class="about-section slide-in">
+  <div class="about-content">
+    <div class="text-content1">
+      <h2>SV Lots</h2>
+      <p>
+        <strong>SV Lots</strong> is a real estate platform dedicated to maximizing property value, ensuring each investment benefits buyers beyond financial gain alone. We believe true property value encompasses several key factors: proper documentation, strategic location, ease of access, environmental sustainability, and essential amenities. Our goal is to offer properties that are not only resellable but also future-proof, providing lasting value.
+      </p>
+      <p>
+        Our services are designed to help clients identify properties with high growth potential, while ensuring legal security and environmental responsibility. At SV Lots, we are committed to making property investments both profitable and sustainable, delivering maximum value to every client.
+      </p>
+    </div>
+    <div class="photo-collage">
+      <img src="assets/SVLots1.jpeg" alt="Real Estate" class="collage-img img-1">
+      <img src="assets/SVLots2.jpeg" alt="Residential Plot" class="collage-img img-2">
+      <img src="assets/SVLots3.jpg" alt="Development" class="collage-img img-3">
+      <img src="assets/SVLots4.webp" alt="Hyderabad" class="collage-img img-4">
+    </div>
+  </div>
+</div>
+
+
+  <div class="why-section fade-in">
+    <div class="why-section-content">
+      <div class="photo-content">
+        <img src="assets/SVLots Photo.jpeg" alt="Poster Image" style="max-width:100%; height:auto;">
+      </div>
+      <div class="text-content">
+        <h2>Why SV Lots</h2>
+        <p>Our strength lies in our holistic approach to property development. We combine technical excellence with market insights,
+           ensuring legal compliance and environmental responsibility. Our focus on innovative smart applications and digital solutions sets us apart,
+            while our proven track record with government collaborations highlights our reliability and expertise. We understand that 
+           true property value is built on several key factors:</p>
+        <p>
+           ● Proper documentation for secure transactions<br>
+           ● Strategic locations with high growth potential<br>
+           ● Ease of access and strong connectivity<br>
+           ● Environmentally sustainable developments<br>
+           ● Availability of essential amenities
+        </p>
+        <!-- <p>Our goal is to offer properties that are not only resellable but also future-proof,
+           delivering long-term value to our clients. We are dedicated to helping you make smart,
+           sustainable investments that provide the best return for your money.
+        </p>         -->
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="visionary-section zoom-in">
+    <div class="visionary-content">
+      
+      <div class="visionary-text">
+        <!-- <h2>Meet Our Visionary Managing Director</h2> -->
+        <h3> CEO & Founder</h3>
+        <p>Sathyananda S Raj brings over three decades of exceptional experience in civil engineering and property development to SV Lots India Private Limited.
+          Alongside his role as a consultant, he has earned recognition from Guinness World Records for his works. <p>He has managed major projects
+            (Irrigation, Roads and Land Development) as a technical consultant.
+             As the Managing Partner of Spectra Associates and Director of AMACS Tumakuru, he has shown remarkable leadership.
+          <p> Sathyananda is also the Chairman-2025 of the J Com Tumkur Table 1.0 , founder of the Chirantana Foundation Trust, and District Coordinator of 
+          Swadeshi Jagaran Manch, underscoring his dedication to social responsibility and sustainable development.
+      </div>
+      <div class="visionary-photo">
+        <img src="assets/jcom20.PNG" alt="Mr. Sathyananda">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mentor-section fade-in">
+    <div class="mentor-content">
+      <div class="mentor-photo">
+        <img src="assets/agri1.webp" alt="Ram Murthy">
+      </div>
+      <div class="mentor-text">
+        <h2>Ram Murthy</h2>
+        <h3>Chief Mentor</h3>
+        <p>Ram Murthy is a highly accomplished civil engineer with over 30 years of experience in the engineering and real estate sectors, 
+          providing invaluable insights to organizations across various industries.<p> As Chief Mentor, he will contribute his technical expertise
+          to support the vision and objectives of SV Lots. With a strong academic background and additional training in project management, 
+          Ram Murthy offers extensive knowledge in construction, land development, and infrastructure. Over his career, he has successfully led numerous
+          large-scale projects, guiding teams with a focus on quality and efficiency.<p>His deep understanding of engineering principles, combined with his
+          dedication to professional development, enables him to mentor emerging talent within SV Lots. As Chief Mentor, Ram Murthy will work closely
+          with team members on technical training, project best practices, and the continuous improvement of SV Lots' operational standards.</p>
+      </div>
+    </div>
+  </div>
+  
+<!-- Vision Section -->
+<section class="vision-section slide-in">
+    <div class="vision-content">
+      <div class="vision-text">
+        <h2>ABOUT</h2>
+        <h3>Our Vision</h3>
+        <p>Our vision is to be a leading real estate platform recognized for delivering exceptional value in property investments,
+           fostering sustainable development, and enhancing the quality of life for our clients. We aim to empower individuals and families
+            by providing high-quality residential plots that offer long-term benefits and a promising future.</p>
+      </div>
+      <div class="vision-photo">
+        <img src="assets/our-vision.jpg" alt="Vision Image">
+      </div>
+    </div>
+  </section>
+
+  <div class="mission-section slide-in">
+    <div class="mission-content">
+      <div class="mission-photo">
+        <img src="assets/mission.webp" alt="Sri Gampa Nageshwer Rao">
+      </div>
+      <div class="mentor-text">
+        <h2>ABOUT</h2>
+        <h3>Our Mission</h3>
+        <p>At SV Lots, our mission is to enhance property value by ensuring every investment improves our clients' lives beyond financial returns. We are dedicated to:<br>
+          1. Providing meticulously documented, strategically located, and environmentally sustainable properties.<br>
+          2. Offering comprehensive support and expert guidance throughout the buying process.<br>
+          3. Upholding the highest standards of quality in all our projects, ensuring client satisfaction and trust.<br>
+          4. Promoting innovative, future-proof real estate solutions that cater to the evolving needs of our customers.<br>
+          Through these efforts, we strive to build lasting relationships and contribute positively to the communities we serve.
+      </p>      
+      </div>
+    </div>
+  </div>
+  

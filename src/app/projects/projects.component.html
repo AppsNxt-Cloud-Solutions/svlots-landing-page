@@ -1,0 +1,383 @@
+
+<style>
+.light-green-section {
+    background-color: rgb(240, 253, 237);
+    padding: 20px;
+    text-align: center; /* Center text and button */
+    margin: 2px 0; /* Space around the section */
+}
+
+.light-green-section button {
+    background-color: rgb(236, 255, 232);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px; /* Space above button */
+}
+
+.light-green-section button:hover {
+    background-color: #ddd;
+}
+    .home-button {
+  background-color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-section {
+    background-color: #f0fdf2; /* Light green background color */
+    padding: 20px; /* Padding around the section */
+}
+
+.project-container {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    justify-content: space-between; /* Ensure space between image and text */
+    margin: 0 auto; /* Center the container */
+    max-width: 1000px; /* Max width for the content */
+    padding: 20px; /* Padding inside the container */
+}
+
+.project-image {
+    flex: 0 0 500px; /* Fixed width for the photo container */
+    height: 500px; /* Fixed height for the photo container */
+    overflow: hidden; /* Hide overflow */
+    margin-right: 50px; /* Space between photo and text */
+    border-radius: 5px;
+    display: flex; /* Enable flexbox to center the image */
+    align-items: center; /* Vertically center the image */
+    justify-content: center; /* Horizontally center the image */
+    margin-right: 25px;
+    width: 100%
+    
+}
+
+.project-image img {
+    width: 100%; /* Ensure the image fills the width of the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: fill; /* Cover the container while maintaining aspect ratio */
+}
+
+
+.project-details {
+    flex: 1; /* Allow this section to grow */
+    padding: 5px; /* Padding around the text */
+    text-align: justify; /* Justify text alignment */
+}
+
+.project-details h2 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-size: 30px;
+    color:rgb(8, 8, 116);
+}
+
+.project-details p {
+    margin: 15px 0; /* Space between paragraphs */
+    font-size: 20px;
+    font-family:'Times New Roman', Times, serif;
+    line-height: 1.6;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .project-container {
+        flex-direction: column; /* Stack elements vertically */
+        padding: 20px; /* Add padding inside the container */
+    }
+
+    .project-image {
+        width: 100%; /* Full width for smaller screens */
+        height: auto; /* Auto height to maintain aspect ratio */
+        margin-bottom: 20px; /* Add space between image and text */
+    }
+
+    .project-image img {
+        width: 100%; /* Image fills container width */
+        height: auto; /* Maintain aspect ratio */
+        padding-left: 10px;
+    }
+
+    .project-details {
+        max-width: 100%;
+    }
+
+    .project-details p {
+        font-size: 16px; /* Adjust font size slightly smaller for smaller screens */
+        font-family:Arial, Helvetica, sans-serif;
+    }
+}
+
+    .gallery-section {
+        padding: 20px; /* Padding around the section */
+        background-color: #f9f9f9; /* Light background color for the gallery */
+        text-align: center; /* Center align text */
+    }
+
+    .gallery-section h2 {
+        margin-bottom: 20px; /* Space below the heading */
+        font-size: 32px; /* Font size for the heading */
+        color: rgb(11, 11, 87); /* Color for the heading */
+        font-weight: bold;
+    }
+
+    .gallery-container {
+        display: grid; /* Use grid layout */
+        grid-template-columns: repeat(2, 1fr); /* Two columns */
+        gap: 30px; /* Space between items */
+        max-width: 1000px; /* Max width for the container */
+        margin: 0 auto; /* Center the container */
+    }
+
+    .gallery-item {
+        overflow: hidden; /* Hide overflow */
+        border-radius: 5px; /* Rounded corners */
+        position: relative; /* Positioning context for the image */
+    }
+
+    .gallery-item img {
+        width: 700px; /* Image fills the width of the container */
+        height: 370px; /* Maintain aspect ratio */
+        object-fit: fill; /* Cover the area while maintaining aspect ratio */
+        transition: transform 0.3s ease; /* Smooth transition for the transform property */
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.1); /* Scale image up on hover */
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+    .gallery-container {
+        grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+
+    .gallery-item:hover img {
+    transform: scale(1.1); /* Scale image up on hover */
+    }
+
+    .project-details h2 {
+        margin-bottom: 10px; /* Space below the heading */
+        font-size: 24px;
+        color:rgb(8, 8, 116);
+    }
+    }
+
+    /* Initially hidden */
+    .slide-in {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-in-out;
+    }
+
+    /* When visible */
+    .slide-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+    }
+
+    /* Example CSS for fading in */
+    .fade-in {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    }
+
+    .fade-in.visible {
+    opacity: 1;
+    }
+
+    /* Initially hidden */
+    .rotate-in {
+    opacity: 0;
+    transform: rotate(15deg);
+    transition: all 0.8s ease-in-out;
+    }
+
+    /* When visible */
+    .rotate-in.visible {
+    opacity: 1;
+    transform: rotate(0);
+    }
+    /* Initially hidden */
+    .zoom-in {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 1.0s ease-in-out;
+    }
+
+    /* When visible */
+    .zoom-in.visible {
+    opacity: 1;
+    transform: scale(1);
+    }
+
+</style>
+    <!-- 
+    <div class="light-green-section">
+        <button (click)="goToHome()">Home >></button>
+    </div>
+    <br> -->
+
+<div class="project-section slide-in">
+    <div class="project-container">
+        
+        <div class="project-details">
+            <h2>Our Latest Project - PRESTIGE GROUP</h2>
+            <div class="project-image">
+                <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0001.jpg" alt="Prestige Raintree Park" />
+            </div>
+            <p>
+                Prestige Raintree Park’s location in Prime Whitefield, right opposite Varthur Lake, gives you convenient access to all parts of Bengaluru. 
+                IT Parks in Whitefield, ITPL, Outer Ring Road, and Sarjapur Road are accessible via arterial roads, which makes commuting to work a breeze. 
+                You also enjoy excellent connectivity via Namma Metro stations at Whitefield, Hopefarm Channasandra, Sri Sathya Sai Hospital, and Pattandur Agrahara.
+            </p>
+            <p>
+                More than 50 premium schools such as Inventure Academy, TISB, and Greenwood High are a short drive away.
+                 Whitefield’s proximity puts you within reach of some of the finest malls in the city, as well as premier restaurants and hotels.
+                  Top-notch healthcare facilities such as Manipal Hospital are also close by.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="project-section1 zoom-in">
+    <div class="project-container"> 
+        <div class="project-details">
+            <h2>EXTRAORDINARY LIVING</h2>
+            <p>
+                1520 exquisite abodes set in 18 towers, spanning 21 acres of breathtaking
+                landscape, overlooking the scenic Varthur lake.
+                That is Prestige Raintree Park at a glance.
+                A range of carefully crafted 5-bedroom, 4-bedroom and 3-bedroom
+                residences with a choice of unit layouts, all designed to deliver a
+                comprehensively elevated living experience, like none other in the city.
+                </p>
+                <p>
+                A plush clubhouse, all of over 1 lakh sft, and a delectable array of luxury
+                leisure amenities further enhance the quality of life.
+                And the cool green embrace of nature, which envelops you and sets up
+                amazing views, is the icing on the cake.
+            </p>
+            <div class="project-image">
+                <img src="assets/Prestige Group/Extraordinary living.PNG" alt="Prestige Raintree Park" />
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+
+<div class="project-section slide-in">
+    <div class="project-container"> 
+        <div class="project-details">
+            <h2>EXHILARATING PANORAMA</h2>
+
+            <div class="project-image">
+                <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0008.jpg" alt="Prestige Raintree Park" />
+            </div>
+            <p>
+                The towers at Prestige Raintree Park are positioned to give you
+                undisturbed and spectacular views of the surrounding greenscape
+                and the serene waters of the Varthur Lake.
+                As many as nine towers are positioned along the length of the site
+                facing the lake. They look upon an expanse of richly landscaped green
+                parkland, which extends all the way to the property’s periphery.
+                The remaining towers, which are towards the rear of the property,
+                similarly overlook lush gardens and lawns.
+                </p>
+                <p>
+                In the centre, situated within a 3-acre landscaped courtyard, stands
+                the clubhouse complex on two levels. With broad, open, party lawns
+                on the upper deck, it provides a treat for your visual senses.
+                The views all around are nothing short of brilliant!
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="project-section1 zoom-in">
+    <div class="project-container"> 
+        <div class="project-details">
+            <h2>EXCLUSIVELY PRIVATE</h2>
+            <p>
+                While its location on Varthur Road gives you easy and quick access to the
+                city’s many conveniences, Prestige Raintree Park also has many features that
+                shelter you from the noise and clamour of the outside world.
+                A 31m access road leading from the main road to the arrival plaza, for one,
+                and the deep landscaped frontage along the entire length of the property, for
+                another, work as buffers between the residential towers and the world outside.
+                </p>
+
+                <p>
+                Inside the property as well, the amenities are positioned to maximise your
+                privacy and sense of security. The public function spaces within the central
+                podium, for example, face out towards open-to-sky courts, both to bring a
+                sense of scale and cut you off from the bustle.
+            </p>
+
+            <div class="project-image">
+                <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0012.jpg" alt="Prestige Raintree Park" />
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+<div class="project-section slide-in">
+    <div class="project-container">
+       
+        <div class="project-details">
+            <h2>EXPANSIVE GREENS</h2>
+
+            <div class="project-image">
+                <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0006.jpg" alt="Prestige Raintree Park" />
+            </div>
+            <p>
+                Prestige Raintree Park is most aptly named as it gives you the incomparable
+                feeling of living in parkland, much like the English aristocracy.
+                The residential towers are flanked by extensive landscaped grounds and
+                broad open spaces. These green zones are dotted with features that bring
+                you closer to nature, such as a Flower Trail, several lawns, a Pet Park, a
+                Fitness Trail and more.
+            </p>
+
+            <p>
+                Prestige Raintree Park’s frontage creates a continuing visual flow of rich
+                greenery, extending from the lake to the tower lobby and all the way up to
+                the central landscaped podium on the first level.
+                The curved, sweeping skywalk is a great place to soak in the amazing views,
+                while seamlessly connecting your home with the vibrant community.
+                What you will enjoy is the surreal feeling of living in nature’s bower, with a
+                wonderful aura of airy openness all around.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="gallery-section">
+    <h2>GALLERY</h2>
+    <div class="gallery-container">
+        <div class="gallery-item">
+            <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0061.jpg" alt="Gallery Image 1">
+        </div>
+        <div class="gallery-item">
+            <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0062.jpg" alt="Gallery Image 2">
+        </div>
+        <div class="gallery-item">
+            <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0063.jpg" alt="Gallery Image 3">
+        </div>
+        <div class="gallery-item">
+            <img src="assets/Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0064.jpg" alt="Gallery Image 4">
+        </div>
+    </div>
+</div>
