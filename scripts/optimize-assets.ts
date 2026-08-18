@@ -85,7 +85,12 @@ const jobs: Job[] = [
   // ── People ───────────────────────────────────────────────────────────────
   { from: "Director.jpeg", to: "people/managing-director", width: 900, quality: 86 },
 
-  // ── Featured project: Prestige Raintree Park (4200x1500 panoramics) ──────
+  // ── Featured project: Prestige Raintree Park ─────────────────────────────
+  // NOTE: these entries produce the project card/cover only. The panoramic
+  // spreads are 4200x1500 PRINT PAGES with baked-in marketing copy, and were
+  // re-cropped to text-free photographic regions in a second pass. The crop
+  // boxes are recorded in docs/asset-spec.md; this flat manifest cannot express
+  // them.
   {
     from: "Prestige Group/Prestige Raintree Park_Lifestyle Brochure_page-0001.jpg",
     to: "projects/prestige/cover",

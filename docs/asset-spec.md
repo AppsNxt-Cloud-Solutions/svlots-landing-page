@@ -43,17 +43,16 @@ App icons live at `app/icon.png` and `app/apple-icon.png` (Next metadata convent
 | `hero/tree-sunset.webp` | 2400×1600 | 173 KB | Warm CTA band. Lone tree, moon, sunset. |
 | `hero/mountain-lake.webp` | 2400×1600 | 146 KB | Dark quote / closing band. |
 | `hero/skyline-night.webp` | 2000×1272 | 236 KB | Urban investment context. |
-| `projects/prestige/towers-sunset.webp` | 2400×857 | 425 KB | Featured project band. |
-| `projects/prestige/amenities.webp` | 2400×857 | 409 KB | Gallery / amenities. |
-| `projects/prestige/courtyard.webp` | 2400×857 | 238 KB | Gallery. |
-| `projects/prestige/lake-view.webp` | 2400×857 | 177 KB | Gallery. |
-| `projects/prestige/green-expanse.webp` | 2400×857 | 147 KB | Gallery. |
-| `projects/prestige/cover.webp` | 2100×1500 | 420 KB | Project card / cover. |
+| `projects/prestige/towers-lake.webp` | 2400×1308 | 270 KB | **Featured project band.** Towers reflected in a lily-covered lake. |
+| `projects/prestige/garden-courts.webp` | 2400×1294 | 443 KB | Aerial landscaped courts. |
+| `projects/prestige/cover.webp` | 2100×1500 | 420 KB | Project card / cover (carries Prestige branding). |
 
 ### Mid-size (900–1600px) — cards, split sections, portraits
 
 `sections/coverage-map.webp` 1336×856 · `sections/documentation.webp` 1200×1200 ·
 `sections/survey-plans.webp` 1200×1200 · `sections/farmland.webp` 1200×700 ·
+`projects/prestige/sky-terrace.webp` 1760×1300 · `projects/prestige/pool.webp` 1950×824 ·
+`projects/prestige/gym.webp` 1806×840 · `projects/prestige/lakeside-lawn.webp` 2400×320 (thin band) ·
 `projects/prestige/elevation.webp` 978×634 · `people/managing-director.webp` 900×1029 ·
 `brand/lockup-dark.webp` 900×1412
 
@@ -86,6 +85,35 @@ Also dropped, with reasons recorded in the script's `excluded` map: the three co
 old site used `carousel3` for *both* slide 1 and slide 3), four duplicate logo variants,
 the four CAD screenshots (now live SVGs in the area calculator), and two clichéd stock
 "MISSION"/"Vision" graphics (replaced with typographic treatments).
+
+## Prestige Raintree Park crops
+
+The Prestige brochure pages are **4200×1500 print spreads, not photographs**. Each carries
+baked-in marketing copy ("MAJESTICALLY TOWERING OVER THE TRANQUIL WATERS", "A GREEN EXPANSE
+FOR THE EYES"), page numbers, diagonal print artefacts, a white paper background, and a
+"THIS IMAGE IS FOR REPRESENTATIONAL PURPOSES ONLY" caption. Dropped in whole they read as
+someone else's brochure pasted into the page.
+
+Each asset below is a text-free photographic region, cropped from the original spread and
+then auto-trimmed of residual white paper (walk inward from each edge while the edge line
+is >90% near-white). Recover an original with the `git show` command above.
+
+| Asset | Source page | Crop box (left, top, w, h) |
+| --- | --- | --- |
+| `towers-lake.webp` | page-0064 | 0, 20, 2660, 1450 → paper-trimmed |
+| `garden-courts.webp` | page-0008 | 1500, 20, 2690, 1450 → paper-trimmed |
+| `sky-terrace.webp` | page-0002 | 2420, 45, 1760, 1300 |
+| `pool.webp` | page-0061 | 2150, 250, 2000, 950 → paper-trimmed |
+| `gym.webp` | page-0061 | 84, 300, 1806, 840 |
+| `lakeside-lawn.webp` | page-0006 | 0, 890, 4200, 560 |
+
+The earlier names `green-expanse` / `towers-sunset` / `amenities` / `lake-view` / `courtyard`
+were **mislabelled** — the file called `towers-sunset` was in fact the green-expanse spread.
+They were replaced by the names above.
+
+> These are Prestige Group's copyrighted project renders, used to market a project SV Lots
+> represents — the same basis as the Angular site. Attribution is explicit on the page
+> ("Featured project — Prestige Raintree Park"). Confirm the marketing agreement permits it.
 
 ## Supplying better imagery
 
