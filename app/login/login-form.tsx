@@ -1,8 +1,7 @@
 "use client";
 
 import { Loader2, TriangleAlert } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useActionState, useId } from "react";
+import { useActionState, useEffect, useId, useState } from "react";
 import { signIn } from "@/app/login/actions";
 import { initialLoginState } from "@/app/login/state";
 import { Field, fieldBorder, inputClasses } from "@/components/forms/field";
@@ -11,13 +10,21 @@ import { cn } from "@/lib/utils";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(signIn, initialLoginState);
-  const params = useSearchParams();
   const ids = useId();
+
+  // Read after mount rather than with useSearchParams — see the note in
+  // contact-form.tsx. /login is a static route, so that hook would keep this
+  // form out of the server-rendered HTML entirely.
+  const [next, setNext] = useState("");
+  useEffect(() => {
+    const target = new URLSearchParams(window.location.search).get("next") ?? "";
+    if (target.startsWith("/admin")) setNext(target);
+  }, []);
   const errors = state.errors ?? {};
 
   return (
     <form action={formAction} className="mt-8" noValidate>
-      <input type="hidden" name="next" value={params.get("next") ?? ""} />
+      <input type="hidden" name="next" value={next} />
 
       {state.status === "error" && state.message && (
         <div

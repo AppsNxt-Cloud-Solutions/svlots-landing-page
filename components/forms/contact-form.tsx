@@ -1,8 +1,7 @@
 "use client";
 
 import { CheckCircle2, Loader2, TriangleAlert } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useActionState, useEffect, useId, useRef } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { submitLead } from "@/app/contact/actions";
 import { Field, fieldBorder, inputClasses } from "@/components/forms/field";
 import { Button, ButtonLink } from "@/components/ui/button";
@@ -13,15 +12,22 @@ import { cn } from "@/lib/utils";
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(submitLead, initialLeadState);
-  const params = useSearchParams();
   const ids = useId();
 
-  // Pre-selected service arrives as ?service=<slug> from the Services page,
-  // replacing the Angular component-state handoff.
-  const serviceParam = params.get("service") ?? "";
-  const knownService = services.some((service) => service.slug === serviceParam)
-    ? serviceParam
-    : "";
+  /**
+   * The pre-selected service arrives as ?service=<slug> from the Services page.
+   *
+   * Read from window.location after mount rather than with useSearchParams:
+   * calling that hook in a Client Component on a STATICALLY rendered route makes
+   * Next prerender the Suspense fallback instead of this form, so the whole form
+   * was missing from the server-rendered HTML — on the site's primary conversion
+   * page. This keeps /contact static and still server-renders the form.
+   */
+  const [selectedService, setSelectedService] = useState("");
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("service") ?? "";
+    if (services.some((service) => service.slug === slug)) setSelectedService(slug);
+  }, []);
 
   // Time-to-fill, used server-side as a bot signal.
   const mountedAt = useRef<number>(0);
@@ -173,7 +179,8 @@ export function ContactForm() {
           <select
             id={`${ids}-service`}
             name="service"
-            defaultValue={values.service || knownService}
+            value={values.service || selectedService}
+            onChange={(event) => setSelectedService(event.target.value)}
             className={cn(inputClasses, fieldBorder(), "appearance-none")}
           >
             <option value="">General enquiry</option>

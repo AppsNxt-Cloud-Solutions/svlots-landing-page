@@ -1,6 +1,5 @@
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import treeSunset from "@/assets/images/hero/tree-sunset.webp";
 import { ContactForm } from "@/components/forms/contact-form";
 import { PageHero } from "@/components/layout/page-hero";
@@ -104,14 +103,7 @@ export default function ContactPage() {
           </div>
 
           <Reveal direction="left">
-            {/* Suspense: the form reads useSearchParams for ?service= */}
-            <Suspense
-              fallback={
-                <div className="h-125 rounded-card border border-ink-200 bg-surface-alt" />
-              }
-            >
-              <ContactForm />
-            </Suspense>
+            <ContactForm />
           </Reveal>
         </Container>
       </Section>

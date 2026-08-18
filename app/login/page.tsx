@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
 import mark from "@/assets/images/brand/mark.png";
 import { LoginForm } from "@/app/login/login-form";
 import { site } from "@/lib/site";
@@ -37,9 +36,7 @@ export default function LoginPage() {
             .
           </p>
 
-          <Suspense fallback={<div className="mt-8 h-64" />}>
-            <LoginForm />
-          </Suspense>
+          <LoginForm />
         </div>
 
         <p className="mt-6 text-center text-xs text-ink-500">
