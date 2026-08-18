@@ -26,9 +26,14 @@ export default async function ProjectsPage(props: PageProps<"/projects">) {
   const projects = await getProjects();
   const { locations, types } = facetsOf(projects);
 
+  // Only honour filter values that exist in the data, matching the select.
+  const activeLocation = locations.includes(location) ? location : "";
+  const activeType = types.includes(type) ? type : "";
+
   const filtered = projects.filter(
     (project) =>
-      (!location || project.location === location) && (!type || project.type === type),
+      (!activeLocation || project.location === activeLocation) &&
+      (!activeType || project.type === activeType),
   );
 
   return (
@@ -43,14 +48,18 @@ export default async function ProjectsPage(props: PageProps<"/projects">) {
 
       <Section>
         <Container>
-          <Suspense fallback={<div className="h-24" />}>
-            <ProjectFilters
-              locations={locations}
-              types={types}
-              total={projects.length}
-              shown={filtered.length}
-            />
-          </Suspense>
+          {/* Hidden when the catalogue is empty: empty dropdowns over an
+              "unavailable" message just reads as broken. */}
+          {projects.length > 0 && (
+            <Suspense fallback={<div className="h-24" />}>
+              <ProjectFilters
+                locations={locations}
+                types={types}
+                total={projects.length}
+                shown={filtered.length}
+              />
+            </Suspense>
+          )}
 
           {filtered.length > 0 ? (
             <Stagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

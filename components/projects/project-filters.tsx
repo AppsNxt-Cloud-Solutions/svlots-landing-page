@@ -4,7 +4,6 @@ import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useId } from "react";
-import { cn } from "@/lib/utils";
 
 /**
  * Location and type filters held in the URL rather than component state, so a
@@ -28,8 +27,12 @@ export function ProjectFilters({
   const locationId = useId();
   const typeId = useId();
 
-  const activeLocation = params.get("location") ?? "";
-  const activeType = params.get("type") ?? "";
+  // Ignore a URL value that is not in the current facet list — otherwise a
+  // stale or hand-edited query leaves the select and the results disagreeing.
+  const rawLocation = params.get("location") ?? "";
+  const rawType = params.get("type") ?? "";
+  const activeLocation = locations.includes(rawLocation) ? rawLocation : "";
+  const activeType = types.includes(rawType) ? rawType : "";
   const hasFilters = Boolean(activeLocation || activeType);
 
   function update(key: string, value: string) {
@@ -92,17 +95,18 @@ export function ProjectFilters({
         <p className="text-sm text-ink-500 tabular-nums">
           {shown === total ? `${total} projects` : `${shown} of ${total}`}
         </p>
-        <Link
-          href={pathname}
-          scroll={false}
-          className={cn(
-            "inline-flex items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-gold-700",
-            !hasFilters && "pointer-events-none opacity-0",
-          )}
-        >
-          <X aria-hidden="true" className="size-3.5" />
-          Clear
-        </Link>
+        {/* Rendered only when it does something — an opacity-0 link is still
+            focusable and still announced by a screen reader. */}
+        {hasFilters && (
+          <Link
+            href={pathname}
+            scroll={false}
+            className="inline-flex items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-gold-700"
+          >
+            <X aria-hidden="true" className="size-3.5" />
+            Clear filters
+          </Link>
+        )}
       </div>
     </div>
   );
