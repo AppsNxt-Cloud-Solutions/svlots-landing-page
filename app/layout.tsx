@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -66,7 +67,7 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body className="flex min-h-dvh flex-col bg-surface antialiased">
+      <body className="flex min-h-dvh flex-col bg-surface pb-16 antialiased lg:pb-0">
         <SmoothScroll />
         <a
           href="#main"
@@ -79,6 +80,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <MobileActionBar />
       </body>
     </html>
   );

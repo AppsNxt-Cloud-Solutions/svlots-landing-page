@@ -2,7 +2,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/brand/logo.png";
-import { footerNav, formattedAddress, site } from "@/lib/site";
+import { footerNav, formattedAddress, site, telHref, whatsappHref } from "@/lib/site";
 
 export function Footer() {
   return (
@@ -55,21 +55,28 @@ export function Footer() {
                 {site.email}
               </a>
             </li>
-            {/* Rendered only once a number is confirmed — see lib/site.ts */}
-            {site.phone && (
-              <li className="flex gap-3">
-                <Phone
-                  aria-hidden="true"
-                  className="mt-0.5 size-4 shrink-0 text-gold-500"
-                />
+            <li className="flex gap-3">
+              <Phone
+                aria-hidden="true"
+                className="mt-0.5 size-4 shrink-0 text-gold-500"
+              />
+              <span className="flex flex-col gap-1">
                 <a
-                  href={`tel:${site.phone}`}
+                  href={telHref}
                   className="text-ink-400 transition-colors hover:text-white"
                 >
-                  {site.phone}
+                  {site.phone.display}
                 </a>
-              </li>
-            )}
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-ink-500 transition-colors hover:text-gold-400"
+                >
+                  Message on WhatsApp
+                </a>
+              </span>
+            </li>
           </ul>
         </div>
       </div>

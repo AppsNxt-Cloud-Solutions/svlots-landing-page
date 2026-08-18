@@ -1,13 +1,13 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/layout/logo";
 import { ButtonLink } from "@/components/ui/button";
-import { primaryNav } from "@/lib/site";
+import { primaryNav, site, telHref } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -48,6 +48,13 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={telHref}
+            className="hidden items-center gap-2 px-2 text-sm font-medium text-ink-200 transition-colors hover:text-gold-400 xl:flex"
+          >
+            <Phone aria-hidden="true" className="size-3.5 text-gold-400" />
+            {site.phone.display}
+          </a>
           <ButtonLink
             href="/contact"
             size="sm"

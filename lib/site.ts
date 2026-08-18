@@ -15,13 +15,16 @@ export const site = {
   email: "info@svlots.com",
 
   /**
-   * The Angular site had no phone number anywhere — a real gap for a market
-   * that converts on calls. Components render call/WhatsApp CTAs only when
-   * these are set, so add them here and the CTAs appear site-wide.
-   * Format: E.164, e.g. "+919876543210".
+   * Recovered from the company's own carousel1.png marketing banner and
+   * confirmed by the client. The Angular site never surfaced a phone number
+   * anywhere, in a market that converts on calls.
    */
-  phone: null as string | null,
-  whatsapp: null as string | null,
+  phone: {
+    display: "+91 72045 13996",
+    /** E.164, for tel: and wa.me links */
+    e164: "+917204513996",
+  },
+  whatsapp: "917204513996",
 
   address: {
     line1: '"Omkara", 5th Cross, SIT Extension',
@@ -34,7 +37,7 @@ export const site = {
   mapsUrl: "https://www.google.com/maps/place/Chirantana",
 
   developer: {
-    name: "TechnoNova Pvt Ltd",
+    name: "AppsNxt Cloud Solutions",
   },
 
   /** Sibling products the "Get Access" CTAs point at. */
@@ -44,6 +47,9 @@ export const site = {
     rentalModel: "https://rentalproperty.balajitransports.in",
   },
 } as const;
+
+export const telHref = `tel:${site.phone.e164}`;
+export const whatsappHref = `https://wa.me/${site.whatsapp}`;
 
 export const formattedAddress = [
   site.address.line1,
