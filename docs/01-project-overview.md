@@ -10,7 +10,7 @@ surveying, infrastructure consultancy, valuation, Vastu consultancy, insurance, 
 "property models" (Revenue, Layout, Sites/Plot, Building, Rental) that are sold as data products
 to landowners and investors.
 
-The footer credits **TechnoNova Pvt Ltd** as the developer; copyright reads 2024.
+The footer credits **AppsNxt Cloud Solutions** as the developer; copyright reads 2024.
 
 ## What this codebase is
 

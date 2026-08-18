@@ -56,7 +56,7 @@ which ~820 are an inline `<style>` block. It contains:
    Gallery, Login. The Products dropdown has a nested "Tools → Calculator" level.
 2. **`<router-outlet>`** inside `.main-content` (pushed down with `margin-top: 130px`).
 3. **Company info band** — logo, company blurb, Useful Links, Office Location.
-4. **Footer** — privacy/terms text (not links), copyright, "Developed by TechnoNova Pvt Ltd."
+4. **Footer** — privacy/terms text (not links), copyright, "Developed by AppsNxt Cloud Solutions."
 
 `AppComponent` holds three booleans — `isMenuOpen`, `isDropdownOpen`, `isToolsOpen` — driving the
 mobile overlay menu and the dropdowns, plus an `isDesktop()` helper that reads

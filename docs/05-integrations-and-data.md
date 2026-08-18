@@ -3,7 +3,7 @@
 ## Backend API
 
 Base host: **`https://loginapi.svlots.com`** — an external service (not in this repo). It appears
-to be shared across several SV Lots / TechnoNova properties, hence the `projectName` discriminator
+to be shared across several SV Lots / AppsNxt properties, hence the `projectName` discriminator
 on auth calls.
 
 | Method | Endpoint | Called from | Purpose |
