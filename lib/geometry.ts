@@ -142,33 +142,13 @@ export function midpoint(p: Point, q: Point): Point {
    figures could describe a shape that does not close.
    ───────────────────────────────────────────────────────────────────────── */
 
-function circleIntersect(
-  c1: Point,
-  r1: number,
-  c2: Point,
-  r2: number,
-): [Point, Point] | null {
-  const dx = c2.x - c1.x;
-  const dy = c2.y - c1.y;
-  const d = Math.hypot(dx, dy);
-  if (d === 0 || d > r1 + r2 || d < Math.abs(r1 - r2)) return null;
-
-  const a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
-  const h = Math.sqrt(Math.max(0, r1 * r1 - a * a));
-  const mx = c1.x + (a * dx) / d;
-  const my = c1.y + (a * dy) / d;
-
-  return [
-    { x: mx + (h * dy) / d, y: my - (h * dx) / d },
-    { x: mx - (h * dy) / d, y: my + (h * dx) / d },
-  ];
-}
-
 export type PolygonSolution = {
   points: Point[];
   /** Triangles as index triples into `points`, for drawing the diagonals. */
   triangles: [number, number, number][];
   area: number;
+  /** Sum of the fan triangles. Equals `area` for the convex reading. */
+  convexReading: number;
 };
 
 export type PolygonResult =
@@ -177,7 +157,13 @@ export type PolygonResult =
 
 /**
  * @param sides      n side lengths, in order around the plot
- * @param diagonals  n-3 diagonals from vertex 0
+ * @param diagonals  n-3 diagonals, all measured from corner 1
+ *
+ * Vertices are placed by accumulating the interior angle each triangle
+ * subtends at corner 1 (law of cosines), rather than by intersecting circles
+ * and guessing which of the two solutions is correct. Circle intersection is
+ * ambiguous — for a concave plot the wrong root inflates the area, which is
+ * exactly the failure this replaces.
  */
 export function solvePolygon(sides: number[], diagonals: number[]): PolygonResult {
   const all = [...sides, ...diagonals];
@@ -186,39 +172,88 @@ export function solvePolygon(sides: number[], diagonals: number[]): PolygonResul
   }
   if (all.some((v) => v <= 0)) return { ok: false, reason: "nonpositive" };
 
-  // Spokes from vertex 0: first side, then each diagonal, then the closing side.
-  const spokes = [sides[0], ...diagonals, sides[sides.length - 1]];
+  const n = sides.length;
+  // Spokes from corner 1 out to every other corner.
+  const spokes = [sides[0], ...diagonals, sides[n - 1]];
 
-  const points: Point[] = [
-    { x: 0, y: 0 },
-    { x: sides[0], y: 0 },
-  ];
+  const points: Point[] = [{ x: 0, y: 0 }];
+  let angle = 0;
+  let heronTotal = 0;
 
-  for (let i = 1; i < sides.length - 1; i++) {
-    const previous = points[i];
-    const solutions = circleIntersect(previous, sides[i], points[0], spokes[i]);
-    if (!solutions) return { ok: false, reason: "unclosable" };
-    // Keep the polygon on one side of the base so it does not self-intersect.
-    const next = solutions[0].y >= solutions[1].y ? solutions[0] : solutions[1];
-    points.push(next);
+  points.push({ x: spokes[0], y: 0 });
+
+  for (let i = 1; i <= n - 2; i++) {
+    const a = spokes[i - 1]; // corner 1 -> current vertex
+    const b = spokes[i]; // corner 1 -> next vertex
+    const c = sides[i]; // the side between them
+
+    const tri = triangleArea(a, b, c);
+    if (!tri.ok) return { ok: false, reason: "unclosable" };
+    heronTotal += tri.area;
+
+    const cosine = (a * a + b * b - c * c) / (2 * a * b);
+    if (!Number.isFinite(cosine) || cosine < -1 || cosine > 1) {
+      return { ok: false, reason: "unclosable" };
+    }
+
+    angle += Math.acos(cosine);
+    // A fan that sweeps past a full turn cannot describe a simple plot.
+    if (angle >= Math.PI * 2) return { ok: false, reason: "unclosable" };
+
+    points.push({ x: b * Math.cos(angle), y: b * Math.sin(angle) });
   }
 
-  const triangles: [number, number, number][] = [];
-  for (let i = 1; i < points.length - 1; i++) {
-    triangles.push([0, i, i + 1]);
-  }
-
-  // Shoelace over the resolved vertices.
+  // Shoelace over the placed outline.
   let doubled = 0;
   for (let i = 0; i < points.length; i++) {
     const p = points[i];
     const q = points[(i + 1) % points.length];
     doubled += p.x * q.y - q.x * p.y;
   }
-  const area = Math.abs(doubled) / 2;
-  if (!Number.isFinite(area) || area <= 0) return { ok: false, reason: "unclosable" };
+  const outline = Math.abs(doubled) / 2;
 
-  return { ok: true, value: { points, triangles, area } };
+  if (!Number.isFinite(outline) || outline <= 0) {
+    return { ok: false, reason: "unclosable" };
+  }
+
+  // A set of lengths can describe a figure whose edges cross, which is not a
+  // plot. That is detectable, unlike the convex/concave ambiguity below.
+  if (selfIntersects(points)) return { ok: false, reason: "unclosable" };
+
+  const triangles: [number, number, number][] = [];
+  for (let i = 1; i < points.length - 1; i++) {
+    triangles.push([0, i, i + 1]);
+  }
+
+  return {
+    ok: true,
+    value: { points, triangles, area: outline, convexReading: heronTotal },
+  };
+}
+
+/* ── Simplicity test ────────────────────────────────────────────────────── */
+
+function crosses(a: Point, b: Point, c: Point, d: Point): boolean {
+  const side = (p: Point, q: Point, r: Point) =>
+    Math.sign((q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x));
+  const d1 = side(a, b, c);
+  const d2 = side(a, b, d);
+  const d3 = side(c, d, a);
+  const d4 = side(c, d, b);
+  return d1 !== d2 && d3 !== d4 && d1 !== 0 && d2 !== 0 && d3 !== 0 && d4 !== 0;
+}
+
+function selfIntersects(points: Point[]): boolean {
+  const n = points.length;
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 2; j < n; j++) {
+      if (i === 0 && j === n - 1) continue; // adjacent through the closing edge
+      if (crosses(points[i], points[(i + 1) % n], points[j], points[(j + 1) % n])) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 export const polygonReason: Record<

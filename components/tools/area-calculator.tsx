@@ -19,12 +19,37 @@ import { cn } from "@/lib/utils";
 type LengthUnit = "m" | "ft";
 const METRES_PER_FOOT = 0.3048;
 
-type Shape = { id: string; label: string; sides: number; diagonals: number };
+type Shape = {
+  id: string;
+  label: string;
+  /** How the old site titled the same calculator. */
+  legacyLabel: string;
+  sides: number;
+  diagonals: number;
+};
 
 const shapes: Shape[] = [
-  { id: "triangle", label: "Triangle", sides: 3, diagonals: 0 },
-  { id: "quadrilateral", label: "4 sides", sides: 4, diagonals: 1 },
-  { id: "pentagon", label: "5 sides", sides: 5, diagonals: 2 },
+  {
+    id: "triangle",
+    label: "Triangle",
+    legacyLabel: "Area Calculator for Triangle",
+    sides: 3,
+    diagonals: 0,
+  },
+  {
+    id: "quadrilateral",
+    label: "Quadrilateral",
+    legacyLabel: "Area Calculator For Irregular Quadrilateral",
+    sides: 4,
+    diagonals: 1,
+  },
+  {
+    id: "pentagon",
+    label: "5-sided",
+    legacyLabel: "Area Calculator For Irregular Trapezium",
+    sides: 5,
+    diagonals: 2,
+  },
 ];
 
 export function AreaCalculator() {
@@ -99,6 +124,12 @@ export function AreaCalculator() {
               </button>
             ))}
           </div>
+          <p className="mt-3 text-xs leading-relaxed text-ink-500">
+            {shape.legacyLabel} — {shape.sides} sides
+            {shape.diagonals > 0 &&
+              `, ${shape.diagonals} diagonal${shape.diagonals > 1 ? "s" : ""} from corner 1`}
+            .
+          </p>
         </fieldset>
 
         <fieldset className="mt-7">
@@ -265,6 +296,14 @@ export function AreaCalculator() {
             </div>
           )}
         </div>
+
+        {result.ok && shape.diagonals > 0 && (
+          <p className="mt-4 text-xs leading-relaxed text-ink-500">
+            A set of lengths can describe both a convex and an inward-turning plot; this
+            reads them as convex, which is the usual case. If your plot has a corner that
+            points inwards, split it into parts and add the areas.
+          </p>
+        )}
 
         <p className="mt-4 text-xs leading-relaxed text-ink-500">
           Results are indicative. For registration, lending or any legal purpose, use a
