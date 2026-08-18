@@ -14,10 +14,7 @@ export function absoluteUrl(url: string): string {
 
 /** "WhiteField , Bengaluru" → "Whitefield, Bengaluru" */
 export function tidyText(value: string): string {
-  return value
-    .replace(/\s+,/g, ",")
-    .replace(/\s+/g, " ")
-    .trim();
+  return value.replace(/\s+,/g, ",").replace(/\s+/g, " ").trim();
 }
 
 export function slugify(value: string): string {

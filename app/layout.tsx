@@ -49,9 +49,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="flex min-h-dvh flex-col bg-surface antialiased">
-        {children}
-      </body>
+      <head>
+        {/* Scroll-reveal primitives render an inline opacity:0 on the server.
+            Without JS that state would never clear, hiding the page content.
+            <noscript> is only parsed when scripting is unavailable. */}
+        <noscript>
+          <style
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: static literal, no interpolation
+            dangerouslySetInnerHTML={{
+              __html:
+                '[data-motion="reveal"]{opacity:1!important;transform:none!important;filter:none!important}',
+            }}
+          />
+        </noscript>
+      </head>
+      <body className="flex min-h-dvh flex-col bg-surface antialiased">{children}</body>
     </html>
   );
 }
