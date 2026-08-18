@@ -17,7 +17,7 @@ import { Container, Section, SectionHeading } from "@/components/ui/section";
 export default function Home() {
   return (
     <>
-      <section className="relative grain isolate flex min-h-[82svh] items-end overflow-hidden bg-ink-950">
+      <section className="relative grain isolate flex min-h-[88svh] items-end overflow-hidden bg-ink-950 pt-18">
         <Image
           src={landDusk}
           alt=""
