@@ -67,9 +67,28 @@ templates, which is the thing this rewrite exists to escape.
 
 ## Deploying
 
-Vercel, zero config — the app is at the repo root. Set the variables above in
-**Settings → Environment Variables** (individually, not as a pasted block), then attach the
-domain. The router uses path-based URLs; Vercel handles that automatically.
+Vercel, from the repo root. [vercel.json](vercel.json) pins the framework to `nextjs` so the
+build does not fall back to a stale preset.
+
+Set the variables above in **Settings → Environment Variables** (individually, not as a pasted
+block), for every environment you deploy — Preview included, or `/login` fails closed.
+
+**If this project was first created from the Angular app**, two dashboard settings will still be
+pointing at it and must be cleared, because they override the repo:
+
+| Setting | Was (Angular) | Must be |
+| --- | --- | --- |
+| Framework Preset | Angular | **Next.js** |
+| Output Directory | `dist` | **empty** (the Next.js preset handles it) |
+| Build Command | — | **empty** (defaults to `next build`) |
+
+Angular built to `dist/svlots`; Next.js builds to `.next`. Leaving the old override produces
+`No Output Directory named "dist" found after the Build completed` even though the build itself
+succeeded.
+
+`main` still holds the Angular app, and it **cannot install on current npm** — it declares
+`primeng@^19` against Angular 16, an unused dependency with an unsatisfiable peer range. Until
+the migration branch is merged, every production deploy from `main` will fail at install.
 
 Legacy Angular URLs (`/main`, `/about-us`, `/contactus`, `/projectcards`, `/blog`, `/knowmore`,
 `/calculator`, `/projectform`, `/loginmodule/login`, …) are redirected in `next.config.ts`.
