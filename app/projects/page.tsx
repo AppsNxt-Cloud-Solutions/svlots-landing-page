@@ -49,9 +49,11 @@ export default async function ProjectsPage(props: PageProps<"/projects">) {
 
       <Section>
         <Container>
-          {/* Hidden when the catalogue is empty: empty dropdowns over an
-              "unavailable" message just reads as broken. */}
-          {projects.length > 0 && (
+          {/* Hidden only when there is nothing to filter AND no filter is
+              active. If a filter is in the URL the controls must stay, otherwise
+              a momentary upstream failure strands the visitor in a filtered view
+              with no way back — which reads as "the filters vanished". */}
+          {(projects.length > 0 || location || type) && (
             <Suspense fallback={<div className="h-24" />}>
               <ProjectFilters
                 locations={locations}

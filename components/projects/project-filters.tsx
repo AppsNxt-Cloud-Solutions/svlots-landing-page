@@ -33,7 +33,11 @@ export function ProjectFilters({
   const rawType = params.get("type") ?? "";
   const activeLocation = locations.includes(rawLocation) ? rawLocation : "";
   const activeType = types.includes(rawType) ? rawType : "";
+  // Normalised values drive the selects. The escape hatch keys off the RAW query,
+  // because a value that is not in the facet list still needs clearing — that is
+  // exactly the case where the visitor is stuck.
   const hasFilters = Boolean(activeLocation || activeType);
+  const hasQuery = Boolean(rawLocation || rawType);
 
   function update(key: string, value: string) {
     const next = new URLSearchParams(params.toString());
@@ -41,6 +45,24 @@ export function ProjectFilters({
     else next.delete(key);
     const query = next.toString();
     router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }
+
+  // Upstream returned nothing but the URL still carries a filter: show the way
+  // out rather than an empty control.
+  if (locations.length === 0 && types.length === 0) {
+    return hasQuery ? (
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-ink-200 pb-6">
+        <p className="text-sm text-ink-600">Filters could not be loaded just now.</p>
+        <Link
+          href={pathname}
+          scroll={false}
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-gold-700 transition-colors hover:text-gold-600"
+        >
+          <X aria-hidden="true" className="size-3.5" />
+          Show all projects
+        </Link>
+      </div>
+    ) : null;
   }
 
   return (
