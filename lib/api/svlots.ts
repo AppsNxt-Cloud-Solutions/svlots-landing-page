@@ -102,3 +102,57 @@ export function facetsOf(projects: Project[]) {
     );
   return { locations: collect("location"), types: collect("type") };
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Lead submission
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * POST /api/SVLots/AddServiceRequest
+ *
+ * Verified to exist upstream (responds 405 with `allow: POST` to a GET).
+ *
+ * NOTE on the contact form: the Angular app posted general enquiries to
+ * /api/SVLots/SubmitContactForm at `https://localhost:7192`. That endpoint
+ * returns **404 on production** — it was never deployed, so the contact form has
+ * never worked outside a developer's machine. General enquiries therefore go
+ * through this endpoint too, with `message` included in the payload. If the
+ * backend ignores unknown fields the message is preserved by the email fallback
+ * in lib/leads.ts.
+ *
+ * Success is judged on HTTP status. The Angular code string-matched the response
+ * body against "Service request added successfully.", so any wording change
+ * upstream turned a success into an error modal.
+ */
+export async function submitServiceRequest(input: {
+  name: string;
+  email: string;
+  phone: string;
+  city?: string;
+  serviceHeading: string;
+  message?: string;
+}): Promise<{ ok: boolean; status: number; body?: string }> {
+  const payload = {
+    firstName: input.name,
+    email: input.email,
+    phone: input.phone,
+    city: input.city ?? "",
+    serviceHeading: input.serviceHeading,
+    message: input.message ?? "",
+  };
+
+  try {
+    const response = await fetch(`${API_BASE}/api/SVLots/AddServiceRequest`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+    });
+
+    const body = await response.text().catch(() => undefined);
+    return { ok: response.ok, status: response.status, body };
+  } catch (error) {
+    console.error("AddServiceRequest request threw", error);
+    return { ok: false, status: 0 };
+  }
+}

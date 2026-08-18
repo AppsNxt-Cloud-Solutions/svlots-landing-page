@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import growth from "@/assets/images/sections/growth.webp";
 import { PageHero } from "@/components/layout/page-hero";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { Container, Section } from "@/components/ui/section";

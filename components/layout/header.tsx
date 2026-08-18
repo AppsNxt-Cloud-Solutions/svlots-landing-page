@@ -200,6 +200,7 @@ function NavDropdown({
 function MobileNav({ pathname }: { pathname: string }) {
   const [open, setOpen] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is the trigger — close the sheet on navigation
   useEffect(() => setOpen(false), [pathname]);
 
   return (
