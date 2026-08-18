@@ -35,3 +35,11 @@ If you're picking this up cold: read [01](01-project-overview.md) and
 [03](03-routes-and-pages.md) to understand the site, then go straight to
 [07](07-findings-and-recommendations.md) — there are several user-visible breakages
 (a dead "Login" link, a form posting to `localhost`) worth fixing before any redesign work.
+
+## Client-facing report
+
+[rebuild-report.html](rebuild-report.html) — a non-technical record of the Angular → Next.js
+rebuild for SV Lots: the three defects that were costing enquiries, a measured before/after
+table, the full defect ledger, how each security change was proved, an eight-step demo
+walkthrough, and the five items still needing a client decision. Published as a shareable
+page; open the file directly in a browser to read it locally.

@@ -1,0 +1,887 @@
+<title>SV Lots Rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────────────────
+     Tokens carried over from the SV Lots site itself, so this document reads as
+     part of the same project. Light palette on bare :root; dark redefines only
+     tokens, guarded so an explicit light choice wins.
+     ───────────────────────────────────────────────────────────────────────── */
+  :root {
+    --ink-950: #0b1118;
+    --ink-900: #131b25;
+    --ink-800: #1f2937;
+    --ink-600: #4b5563;
+    --ink-500: #6b7280;
+    --ink-300: #cbd2da;
+    --ink-200: #e3e7ec;
+    --ink-100: #f1f4f7;
+
+    --gold-700: #6f5129;
+    --gold-600: #8a6636;
+    --gold-500: #bd9666;
+    --gold-100: #f8f0e3;
+
+    --good: #1a7431;
+    --good-bg: #eef8f1;
+    --was: #b3261e;
+    --was-bg: #fdf1f0;
+
+    --ground: #ffffff;
+    --ground-alt: #f8faf9;
+    --panel: #ffffff;
+    --hairline: #e3e7ec;
+
+    --fg: var(--ink-800);
+    --fg-quiet: var(--ink-600);
+    --fg-faint: var(--ink-500);
+    --heading: var(--ink-900);
+    --accent: var(--gold-600);
+    --accent-rule: var(--gold-500);
+
+    --display: "Playfair Display", Georgia, "Times New Roman", serif;
+    --sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --ground: #0b1118;
+      --ground-alt: #101823;
+      --panel: #141d29;
+      --hairline: #26313f;
+
+      --fg: #dde3ea;
+      --fg-quiet: #a8b3c1;
+      --fg-faint: #8492a2;
+      --heading: #f2f5f8;
+      --accent: #d0ad82;
+      --accent-rule: #bd9666;
+
+      --good: #6ed08c;
+      --good-bg: #12251a;
+      --was: #f08b83;
+      --was-bg: #291513;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0b1118;
+    --ground-alt: #101823;
+    --panel: #141d29;
+    --hairline: #26313f;
+
+    --fg: #dde3ea;
+    --fg-quiet: #a8b3c1;
+    --fg-faint: #8492a2;
+    --heading: #f2f5f8;
+    --accent: #d0ad82;
+    --accent-rule: #bd9666;
+
+    --good: #6ed08c;
+    --good-bg: #12251a;
+    --was: #f08b83;
+    --was-bg: #291513;
+  }
+
+  * { box-sizing: border-box; min-width: 0; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--display);
+    color: var(--heading);
+    font-weight: 500;
+    line-height: 1.1;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p { margin: 0; text-wrap: pretty; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  :focus-visible { outline: 2px solid var(--accent-rule); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: 76rem; margin-inline: auto; padding-inline: var(--pad); }
+
+  /* ── Masthead ─────────────────────────────────────────────────────────── */
+  .masthead {
+    background: var(--ink-950);
+    color: #dde3ea;
+    padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2rem, 5vw, 3rem);
+    border-bottom: 3px solid var(--gold-500);
+  }
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-500);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: var(--gold-500);
+    flex: none;
+  }
+  .masthead h1 {
+    color: #fff;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: -0.02em;
+    margin-top: 1.5rem;
+    max-width: 30ch;
+  }
+  .masthead h1 em { font-style: normal; color: var(--gold-500); }
+  .thesis {
+    margin-top: 1.5rem;
+    max-width: 60ch;
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    color: #b8c2ce;
+  }
+  .meta {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.14);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2.5rem;
+    font-size: 0.8125rem;
+    color: #8492a2;
+  }
+
+  /* ── Headline figures ─────────────────────────────────────────────────── */
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.14);
+    margin-top: 2.5rem;
+  }
+  .figure { background: var(--ink-950); padding: 1.25rem 1.25rem 1.25rem 0; }
+  .figures .figure:not(:first-child) { padding-left: 1.25rem; }
+  .figure b {
+    display: block;
+    font-family: var(--display);
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    color: #fff;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .figure span { display: block; margin-top: 0.5rem; font-size: 0.75rem; color: #8492a2; line-height: 1.4; }
+
+  /* ── Sections ─────────────────────────────────────────────────────────── */
+  section { padding-block: clamp(2.75rem, 6vw, 4.5rem); }
+  section + section { border-top: 1px solid var(--hairline); }
+  section.tinted { background: var(--ground-alt); }
+
+  .head { max-width: var(--measure); }
+  .head h2 {
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    letter-spacing: -0.015em;
+    margin-top: 1.125rem;
+  }
+  .head p { margin-top: 1rem; color: var(--fg-quiet); font-size: 1.0625rem; }
+
+  /* ── Before / after ledger — the document's structural device ─────────── */
+  .ledger { margin-top: 2.5rem; display: grid; gap: 1.25rem; }
+  .row {
+    display: grid;
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  @media (width >= 52rem) { .row { grid-template-columns: 1fr 1fr; } }
+
+  .cell { background: var(--panel); padding: 1.375rem 1.5rem; }
+  .cell.before { background: var(--was-bg); }
+  .cell h3 {
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .cell.before h3 { color: var(--was); }
+  .cell.after h3 { color: var(--good); }
+  .cell p { margin-top: 0.75rem; font-size: 0.9375rem; color: var(--fg-quiet); }
+  .cell strong { color: var(--heading); font-weight: 600; }
+  .cell code, .inline-code {
+    font-family: var(--mono);
+    font-size: 0.8125em;
+    background: var(--ink-100);
+    color: var(--gold-700);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    word-break: break-word;
+  }
+  :root:not([data-theme="light"]) { @media (prefers-color-scheme: dark) {
+    .cell code, .inline-code { background: rgba(255,255,255,0.07); color: var(--accent); }
+  }}
+  :root[data-theme="dark"] .cell code,
+  :root[data-theme="dark"] .inline-code { background: rgba(255,255,255,0.07); color: var(--accent); }
+
+  /* ── Data table ───────────────────────────────────────────────────────── */
+  .scroll { overflow-x: auto; margin-top: 2.5rem; border: 1px solid var(--hairline); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: 0.9375rem; }
+  caption { text-align: left; padding: 1rem 1.25rem 0; font-size: 0.8125rem; color: var(--fg-faint); }
+  th, td { text-align: left; padding: 0.875rem 1.25rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  thead th {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    background: var(--ground-alt);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.was { color: var(--was); }
+  td.now { color: var(--good); font-weight: 500; }
+
+  /* ── Demo walkthrough — numbered because order genuinely matters ──────── */
+  .steps { margin-top: 2.5rem; display: grid; gap: 1rem; counter-reset: step; }
+  .step {
+    background: var(--panel);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: grid;
+    gap: 0.875rem;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--display);
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    padding-top: 0.125rem;
+  }
+  .step > div { grid-column: 2; }
+  .step h3 { font-size: 1.1875rem; }
+  .step .do, .step .see { margin-top: 0.75rem; font-size: 0.9375rem; color: var(--fg-quiet); }
+  .step .see { padding-left: 0.875rem; border-left: 2px solid var(--accent-rule); }
+  .step .see b { color: var(--heading); font-weight: 600; }
+  pre {
+    margin: 0.875rem 0 0;
+    background: var(--ink-950);
+    color: #cbd2da;
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  /* ── Outstanding items ────────────────────────────────────────────────── */
+  .actions { margin-top: 2.5rem; display: grid; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: 10px; overflow: hidden; }
+  .action { background: var(--panel); padding: 1.25rem 1.5rem; display: grid; gap: 0.5rem; }
+  .action-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem; }
+  .action h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: var(--heading); }
+  .tag {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .tag.high { background: var(--was-bg); color: var(--was); }
+  .tag.med { background: var(--gold-100); color: var(--gold-700); }
+  :root:not([data-theme="light"]) { @media (prefers-color-scheme: dark) {
+    .tag.med { background: rgba(189,150,102,0.16); color: var(--accent); }
+  }}
+  :root[data-theme="dark"] .tag.med { background: rgba(189,150,102,0.16); color: var(--accent); }
+  .action p { font-size: 0.9375rem; color: var(--fg-quiet); }
+
+  .note {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--accent-rule);
+    background: var(--ground-alt);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9375rem;
+    color: var(--fg-quiet);
+    max-width: var(--measure);
+  }
+
+  .list { margin: 1.5rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.625rem; max-width: var(--measure); }
+  .list li { padding-left: 1.5rem; position: relative; font-size: 0.9375rem; color: var(--fg-quiet); }
+  .list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 0.5rem; height: 1px; background: var(--accent-rule); }
+
+  footer {
+    background: var(--ink-950);
+    color: #8492a2;
+    padding-block: 2.5rem;
+    font-size: 0.8125rem;
+  }
+  footer strong { color: #dde3ea; font-weight: 500; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Prepared for SV Lots India Pvt Ltd</p>
+    <h1>The website was rebuilt from the ground up. Here is <em>what changed</em>.</h1>
+    <p class="thesis">
+      The old site was an Angular application built in 2024. It looked reasonable, but its
+      main enquiry form had never worked, its cloud credentials were readable by any visitor,
+      and search engines saw a single untitled page. This is a record of what was replaced,
+      what was measured, and what still needs a decision from you.
+    </p>
+
+    <div class="figures">
+      <div class="figure"><b>93%</b><span>Smaller — images and media went from 84.4&nbsp;MB to 5.5&nbsp;MB</span></div>
+      <div class="figure"><b>15</b><span>Defects found and fixed, several of them losing you enquiries</span></div>
+      <div class="figure"><b>100</b><span>Google accessibility and SEO scores, from 0 structured data</span></div>
+      <div class="figure"><b>0</b><span>Cloud credentials now reachable from a visitor's browser</span></div>
+    </div>
+
+    <p class="meta">
+      <span>Angular 16 → Next.js 16</span>
+      <span>Hosted on Vercel</span>
+      <span>Built by AppsNxt Cloud Solutions</span>
+    </p>
+  </div>
+</header>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">The short version</p>
+      <h2>Three things were wrong that cost you business</h2>
+      <p>
+        Everything else in this document is detail. These three were the expensive ones, and
+        all three are now fixed and verified.
+      </p>
+    </div>
+
+    <div class="ledger">
+      <div class="row">
+        <div class="cell before">
+          <h3>The enquiry form never worked</h3>
+          <p>
+            The contact form sent submissions to <code>https://localhost:7192</code> — an address
+            that only exists on a developer's own laptop. We then checked your live server and
+            found the receiving endpoint had <strong>never been deployed at all</strong>.
+            Worse, when the send failed the form still told the visitor
+            <strong>“Data Added Successfully.”</strong>
+          </p>
+          <p>
+            Every enquiry through that form was lost, and every visitor was told it had gone
+            through.
+          </p>
+        </div>
+        <div class="cell after">
+          <h3>Enquiries are delivered, or you are told</h3>
+          <p>
+            Submissions now go to an endpoint we confirmed is live on your server, and can also
+            be emailed to you in parallel. The visitor sees success
+            <strong>only if a delivery actually succeeded</strong>.
+          </p>
+          <p>
+            If both routes fail, they get an honest message plus your phone, WhatsApp and email —
+            so the enquiry still reaches you.
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell before">
+          <h3>Your cloud keys were public</h3>
+          <p>
+            The old site fetched your Amazon storage password into the visitor's browser and
+            unscrambled it there — using a code that was itself written into the page. Anyone who
+            opened their browser's developer tools could read your live credentials and access
+            the storage account directly.
+          </p>
+        </div>
+        <div class="cell after">
+          <h3>Credentials never leave the server</h3>
+          <p>
+            Images are now fetched by our server and passed to the browser. We measured the page
+            afterwards: <strong>zero requests to Amazon</strong> and
+            <strong>zero credentials</strong> anywhere in what the browser receives.
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell before">
+          <h3>Search engines saw one blank page</h3>
+          <p>
+            All 15 pages shared a single title, <code>SVlots</code>. There was no page
+            description, no sitemap, no business listing data and no analytics — so there was
+            no way to know whether the site was working, and little for Google to rank.
+          </p>
+        </div>
+        <div class="cell after">
+          <h3>Every page is findable</h3>
+          <p>
+            Each page now has its own title and description, a sitemap that updates itself when
+            you add a project, and machine-readable business details — your Tumkur address,
+            phone, opening hours and service list. Google scores the site
+            <strong>100 for SEO</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section class="tinted">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Measured</p>
+      <h2>Before and after, in numbers</h2>
+      <p>
+        Every figure here was measured on the finished site, not estimated. The
+        accessibility and speed numbers come from Google Lighthouse and the axe
+        accessibility engine.
+      </p>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <caption>Measured on the production build. Speed figures are explained in the note below.</caption>
+        <thead>
+          <tr><th scope="col">What we measured</th><th scope="col">Old site</th><th scope="col">New site</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Images and media shipped to visitors</td><td class="num was">84.4 MB</td><td class="num now">5.5 MB</td></tr>
+          <tr><td>Image files, after removing unused ones</td><td class="num was">80</td><td class="num now">30</td></tr>
+          <tr><td>Page titles across the site</td><td class="num was">1, shared</td><td class="num now">Unique per page</td></tr>
+          <tr><td>Pages listed in a sitemap</td><td class="num was">0</td><td class="num now">16, self-updating</td></tr>
+          <tr><td>Business details readable by Google</td><td class="num was">None</td><td class="num now">Address, phone, hours, services</td></tr>
+          <tr><td>Accessibility problems found by audit</td><td class="num was">Not testable*</td><td class="num now">0 across 15 pages</td></tr>
+          <tr><td>Google accessibility score</td><td class="num was">—</td><td class="num now">100</td></tr>
+          <tr><td>Google SEO score</td><td class="num was">—</td><td class="num now">100</td></tr>
+          <tr><td>Time for the main content to appear</td><td class="num was">—</td><td class="num now">0.13 s</td></tr>
+          <tr><td>Layout shifting while loading</td><td class="num was">—</td><td class="num now">None (0.00)</td></tr>
+          <tr><td>Styling code hidden inside page templates</td><td class="num was">~5,000 lines</td><td class="num now">0</td></tr>
+          <tr><td>Different fonts competing on one site</td><td class="num was">11</td><td class="num now">2</td></tr>
+          <tr><td>Pages that existed but nothing linked to</td><td class="num was">2</td><td class="num now">0</td></tr>
+          <tr><td>Unfinished placeholder pages, publicly reachable</td><td class="num was">2</td><td class="num now">0</td></tr>
+          <tr><td>Old web addresses still working after the move</td><td class="num was">—</td><td class="num now">All 12 redirected</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">
+      <strong>* On the old site</strong> the comparison isn't meaningful: its styling lived
+      inside the page templates in a way that made automated auditing unreliable. What we can
+      say concretely is that it had no keyboard focus indicators anywhere, its header text
+      blinked on a permanent loop — a recognised accessibility failure — and its mobile menu
+      had no close button.
+    </p>
+
+    <p class="note">
+      <strong>On speed:</strong> the 0.13 s figure is the real measured time for the main
+      content to appear. Google's Lighthouse tool also runs a deliberately pessimistic
+      simulation — a slow 4G phone on a throttled processor — and on that simulation the site
+      scores between 82 and 90 out of 100. That range is the same build measured repeatedly;
+      the tool is simply noisy. Once live on Vercel's global network the real-world figures
+      will be better than anything we can measure locally, and the site now reports its own
+      speed data so you can see actual visitor numbers.
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">The defect ledger</p>
+      <h2>Everything we found, and what we did about it</h2>
+      <p>
+        These were discovered by reading the old code line by line and testing the live site.
+        Several would have been invisible from the outside.
+      </p>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th scope="col">What was wrong</th><th scope="col">Effect on the business</th><th scope="col">Now</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Contact form sent to a developer's laptop address, and its endpoint was never deployed</td>
+            <td>Every enquiry lost; visitor told it succeeded</td><td class="now">Fixed and verified</td>
+          </tr>
+          <tr>
+            <td>Amazon storage credentials unscrambled inside the visitor's browser</td>
+            <td>Anyone could read and use your cloud keys</td><td class="now">Server-side only</td>
+          </tr>
+          <tr>
+            <td>The staff “Add Project” page had no login check at all</td>
+            <td>Anyone who guessed the address could publish to your site</td><td class="now">Three independent checks</td>
+          </tr>
+          <tr>
+            <td>Administrator status was stored in the browser, where a visitor could change it</td>
+            <td>Self-granted admin access</td><td class="now">Signed server session</td>
+          </tr>
+          <tr>
+            <td>The “Login” link in the menu pointed at a page that did not exist</td>
+            <td>Staff hit a blank screen</td><td class="now">Works</td>
+          </tr>
+          <tr>
+            <td>The Products menu could not be opened on a phone or tablet</td>
+            <td>Your area calculator was unreachable on mobile</td><td class="now">Opens on tap</td>
+          </tr>
+          <tr>
+            <td>No “page not found” page</td>
+            <td>Any mistyped or old link showed an empty site</td><td class="now">Proper 404 with routes out</td>
+          </tr>
+          <tr>
+            <td>A watermarked Shutterstock stock photo was live on the site</td>
+            <td>Visible watermark; licensing exposure</td><td class="now">Removed — see actions</td>
+          </tr>
+          <tr>
+            <td>An article headed “Open Plots in Tumkur” described Dholera, Gujarat</td>
+            <td>Copy that was never edited after being reused</td><td class="now">Rewritten</td>
+          </tr>
+          <tr>
+            <td>A second article was still branded “T Homes”</td>
+            <td>A competitor's name on your site</td><td class="now">Removed</td>
+          </tr>
+          <tr>
+            <td>The homepage slideshow used the same photo for slides 1 and 3</td>
+            <td>Looked like a fault</td><td class="now">Replaced by a new hero</td>
+          </tr>
+          <tr>
+            <td>Five links pointed at <code>localhost:4200</code>, a developer's machine</td>
+            <td>Dead links for every visitor</td><td class="now">All corrected</td>
+          </tr>
+          <tr>
+            <td>The area calculator showed “0.00” for measurements that cannot form a shape</td>
+            <td>Indistinguishable from a real answer</td><td class="now">Explains the problem</td>
+          </tr>
+          <tr>
+            <td>No phone number anywhere on the site</td>
+            <td>No way to call, in a market that converts on calls</td><td class="now">Call &amp; WhatsApp throughout</td>
+          </tr>
+          <tr>
+            <td>“Privacy Policy” and “Terms of Use” were plain text with no pages behind them</td>
+            <td>Collecting names, phones and emails with no policy</td><td class="now">Both written</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section class="tinted">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Security</p>
+      <h2>What we changed, and how we proved it</h2>
+      <p>
+        Security claims are only worth as much as the test behind them. Each of these was
+        checked by attempting the attack.
+      </p>
+    </div>
+
+    <ul class="list">
+      <li><strong>Cloud credentials.</strong> Measured the finished page: zero requests to Amazon from the browser, and no credential text anywhere in what the browser receives.</li>
+      <li><strong>Image access.</strong> Our image route only serves files that belong to a published project. We tried an unlisted filename — refused. We tried a directory-escape trick (<code>../etc/passwd</code>) — refused.</li>
+      <li><strong>Staff login.</strong> The session is a cryptographically signed token the browser cannot read or alter. We tried an expired token, a token signed with the wrong key, and a hand-forged unsigned token. All three were rejected.</li>
+      <li><strong>Staff pages.</strong> Protected in three independent places, so a mistake in one does not open the door. Visiting the admin page without signing in redirects to the login screen.</li>
+      <li><strong>File uploads.</strong> Restricted to JPEG, PNG and WebP, capped at 6 MB, and stored under a name derived from the file's own contents — so two people uploading <code>plot.jpg</code> can no longer overwrite each other's work, which the old site allowed.</li>
+      <li><strong>Spam.</strong> Public forms now carry two automated-submission traps. The old forms had none.</li>
+      <li><strong>Transport.</strong> Standard protective headers are now sent with every page, and the software version is no longer advertised.</li>
+    </ul>
+
+    <p class="note">
+      <strong>One honest caveat.</strong> The new site no longer exposes your Amazon keys — but
+      those keys were public for as long as the old site was online, so they must be treated as
+      compromised regardless of anything we changed. Rotating them is listed in the actions
+      below, and the new site is already built to use replacements the moment you issue them.
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">See it for yourself</p>
+      <h2>Eight things worth demonstrating</h2>
+      <p>
+        Each takes under a minute. Numbers here are a suggested order for a walkthrough — the
+        first few are what a customer notices, the last few are what protects you.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div>
+          <h3>The homepage, scrolled slowly</h3>
+          <p class="do">Open the homepage and scroll from top to bottom without rushing.</p>
+          <p class="see">
+            <b>What to point out:</b> the headline settles word by word, the landscape drifts
+            behind the text as you scroll, the four promises draw their own icons, and the
+            statistics count up as they arrive. The old site's homepage was a slideshow that
+            repeated one of its three photos.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>A filtered project list that can be shared</h3>
+          <p class="do">
+            Go to Projects, set Location to <span class="inline-code">Bengaluru</span>, then copy
+            the web address from the bar and paste it into a new tab.
+          </p>
+          <p class="see">
+            <b>What to point out:</b> the filter is part of the address, so the filtered view
+            opens exactly as you left it. You can send a customer a link to precisely the
+            properties they asked about. On the old site filters vanished the moment you moved
+            away, and the back button did nothing.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>The area calculator drawing your plot</h3>
+          <p class="do">
+            Open Property Models → Area Calculator, choose <b>Quadrilateral</b>, and enter four
+            sides of <span class="inline-code">10</span> with a diagonal of
+            <span class="inline-code">14.142</span>.
+          </p>
+          <p class="see">
+            <b>What to point out:</b> the plot draws itself to scale as you type, labelled with
+            your own measurements — and the answer appears at once in
+            <b>square metres, square feet, guntha and acres</b>. Guntha and acres are what buyers
+            actually ask for, and the old calculator could not produce them. Now change the
+            diagonal to <span class="inline-code">99</span>: instead of the old silent “0.00”, it
+            explains that those lengths cannot close into a shape.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>Tap to call, from anywhere</h3>
+          <p class="do">Open the site on a phone and look at the bar fixed to the bottom.</p>
+          <p class="see">
+            <b>What to point out:</b> Call, WhatsApp and Enquire follow the visitor down every
+            page. The old site had no phone number on it at all.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>A link that looks professional when shared</h3>
+          <p class="do">
+            Paste a link to one of the Insights articles into WhatsApp or LinkedIn and wait for
+            the preview to load.
+          </p>
+          <p class="see">
+            <b>What to point out:</b> a branded card appears with the article headline, generated
+            automatically. Old links showed as bare text, which quietly undermines everything
+            your marketing team shares.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>Publishing a project without a developer</h3>
+          <p class="do">
+            Sign in at <span class="inline-code">/login</span>, add a project with a photo, then
+            open the public Projects page.
+          </p>
+          <p class="see">
+            <b>What to point out:</b> it appears immediately, and it is added to the sitemap Google
+            reads — without anyone touching the code.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>The locked door</h3>
+          <p class="do">
+            While signed out, type the staff address directly into the browser:
+            <span class="inline-code">/admin/projects</span>.
+          </p>
+          <p class="see">
+            <b>What to point out:</b> you are sent to the login screen. On the old site this page
+            opened for anybody who knew the address.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div>
+          <h3>Nothing leaking to Amazon</h3>
+          <p class="do">
+            On the Projects page, open your browser's developer tools, choose the Network tab and
+            type <span class="inline-code">amazonaws</span> into its filter box.
+          </p>
+          <pre>Expected result: no matching requests.</pre>
+          <p class="see">
+            <b>What to point out:</b> the project photographs are still stored in your private
+            Amazon account, but the browser never talks to it and never sees a password. Doing
+            the same on the old site shows direct Amazon traffic and two requests fetching
+            credentials.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section class="tinted">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Needs a decision from you</p>
+      <h2>Five things we could not settle ourselves</h2>
+      <p>
+        None of these block the site going live, but each is either a risk or a gap only SV Lots
+        can close.
+      </p>
+    </div>
+
+    <div class="actions">
+      <div class="action">
+        <div class="action-head">
+          <h3>Rotate the Amazon storage keys</h3>
+          <span class="tag high">Security · do first</span>
+        </div>
+        <p>
+          Those keys were readable by any visitor for as long as the old site was online, so they
+          must be assumed known. Issue new ones and send them to us; the new site is already
+          built to accept them, and the old compatibility path can then be deleted entirely.
+        </p>
+      </div>
+
+      <div class="action">
+        <div class="action-head">
+          <h3>Decide how enquiry messages reach you</h3>
+          <span class="tag high">Enquiries</span>
+        </div>
+        <p>
+          The endpoint that is live on your server records a caller's name, phone, email and the
+          service they asked about — but it has no field for the message they typed. Either your
+          backend team adds the missing endpoint, or we switch on email delivery so the full
+          message arrives in your inbox. Until one is chosen, you will receive the contact
+          details but possibly not the message.
+        </p>
+      </div>
+
+      <div class="action">
+        <div class="action-head">
+          <h3>License or replace the watermarked photograph</h3>
+          <span class="tag med">Licensing</span>
+        </div>
+        <p>
+          One image on the old site was an unlicensed Shutterstock preview with the watermark
+          still visible across it. We have replaced it with a photograph you already own, so
+          nothing is missing — but the old site served it publicly, which is worth resolving.
+        </p>
+      </div>
+
+      <div class="action">
+        <div class="action-head">
+          <h3>Review the two Insights articles</h3>
+          <span class="tag med">Content</span>
+        </div>
+        <p>
+          The originals could not be reused: one described a different state entirely, and another
+          carried a competitor's brand. We rewrote both on the same subjects, deliberately avoiding
+          specific price or growth claims. They are published under your name, so they should have
+          your sign-off.
+        </p>
+      </div>
+
+      <div class="action">
+        <div class="action-head">
+          <h3>Test a real staff sign-in</h3>
+          <span class="tag med">Access</span>
+        </div>
+        <p>
+          We have no staff account, so we verified every failure case — wrong password, expired
+          session, forged token — but not a successful login. Please sign in once with a real
+          account. If it refuses a valid one, the server log will say exactly why.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────── -->
+<section>
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Living with it</p>
+      <h2>What is easier from here</h2>
+    </div>
+
+    <ul class="list">
+      <li><strong>Adding a project</strong> is a form your team fills in. It appears on the site and in Google's sitemap immediately.</li>
+      <li><strong>Writing an article</strong> means adding one plain-text file. No developer, no deployment ceremony.</li>
+      <li><strong>Changing the look</strong> happens in one place. The old site had colours written into pages roughly forty times over, in eleven different fonts; a rebrand meant editing every page and hoping nothing was missed.</li>
+      <li><strong>Swapping a photograph</strong> means dropping a file in and keeping the same shape. We have documented the sizes so your team can supply drone or site photography later without any code change.</li>
+      <li><strong>Knowing whether it works.</strong> The site now reports its own visitor numbers and real-world speed. The old site measured nothing, so nobody could tell.</li>
+      <li><strong>Nothing was thrown away.</strong> Every original file, including the ones we removed, is preserved in the project history and can be recovered.</li>
+    </ul>
+
+    <p class="note">
+      The one thing that would most improve the site from here is photography of your own
+      completed layouts. Almost every wide image currently comes from either a stock library or a
+      partner's brochure. Real aerial and site photographs of SV Lots land would raise the whole
+      site more than any further engineering.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>SV Lots India Pvt Ltd</strong> — "Omkara", 5th Cross, SIT Extension, Tumkur 572102, Karnataka</p>
+    <p style="margin-top:0.5rem">
+      Rebuilt from Angular 16 to Next.js 16 by <strong>AppsNxt Cloud Solutions</strong>. All
+      figures in this document were measured on the finished build; where a comparison could not
+      be measured fairly, it is marked as such.
+    </p>
+  </div>
+</footer>
