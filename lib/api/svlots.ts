@@ -156,3 +156,127 @@ export async function submitServiceRequest(input: {
     return { ok: false, status: 0 };
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Auth
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const PROJECT_NAME = "SVLots";
+
+export type LoginResult =
+  | { ok: true; email: string; name?: string; role?: string }
+  | {
+      ok: false;
+      reason: "credentials" | "not-authorised" | "unavailable";
+      detail?: string;
+    };
+
+/**
+ * POST /api/Auth/login
+ *
+ * The shared auth service is multi-tenant, so the response is checked to confirm
+ * this account is entitled to the SVLots project.
+ *
+ * The Angular code declared this response TWICE with different fields —
+ * AuthService's copy omitted `projectNames`, which is exactly the field
+ * LoginComponent branched on. One schema here.
+ *
+ * Verified: invalid credentials return HTTP 401 {"message":"Invalid email or
+ * password."}. The success shape is taken from the Angular implementation, which
+ * worked in production and required projectNames to include "SVLots"; we keep
+ * that requirement and fail closed.
+ */
+const loginResponseSchema = z.object({
+  message: z.string().nullish(),
+  email: z.string().nullish(),
+  name: z.string().nullish(),
+  role: z.string().nullish(),
+  status: z.number().nullish(),
+  projectName: z.string().nullish(),
+  projectNames: z.array(z.string()).nullish(),
+});
+
+export async function login(email: string, password: string): Promise<LoginResult> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}/api/Auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, projectName: PROJECT_NAME }),
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("Login request threw", error);
+    return { ok: false, reason: "unavailable" };
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    return { ok: false, reason: "credentials" };
+  }
+  if (!response.ok) {
+    console.error(`Login failed: HTTP ${response.status}`);
+    return { ok: false, reason: "unavailable" };
+  }
+
+  const parsed = loginResponseSchema.safeParse(await response.json().catch(() => null));
+  if (!parsed.success) {
+    console.error("Login returned an unexpected shape", parsed.error.issues);
+    return { ok: false, reason: "unavailable" };
+  }
+
+  const data = parsed.data;
+
+  // The old client also string-matched message === "Login successful."; an email
+  // on a 2xx is the more durable signal, so treat a failure message as failure
+  // but do not require exact success wording.
+  if (/invalid|failed|incorrect/i.test(data.message ?? "") || !data.email) {
+    return { ok: false, reason: "credentials" };
+  }
+
+  const entitled =
+    data.projectNames?.includes(PROJECT_NAME) || data.projectName === PROJECT_NAME;
+
+  if (!entitled) {
+    // Log which keys came back (not their values) so a contract change is
+    // diagnosable without putting account data in the logs.
+    console.error("Login rejected: account not entitled to SVLots", {
+      keys: Object.keys(data),
+    });
+    return { ok: false, reason: "not-authorised" };
+  }
+
+  return {
+    ok: true,
+    email: data.email,
+    name: data.name ?? undefined,
+    role: data.role ?? undefined,
+  };
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Admin: create project
+   ─────────────────────────────────────────────────────────────────────────── */
+
+export async function addProject(input: {
+  title: string;
+  description: string;
+  location: string;
+  type: string;
+  externalLink: string;
+  imageUrl: string;
+  fileName: string;
+}): Promise<{ ok: boolean; status: number; body?: string }> {
+  try {
+    const response = await fetch(`${API_BASE}/api/SVLots/AddProject`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(input),
+      cache: "no-store",
+    });
+    const body = await response.text().catch(() => undefined);
+    return { ok: response.ok, status: response.status, body };
+  } catch (error) {
+    console.error("AddProject request threw", error);
+    return { ok: false, status: 0 };
+  }
+}

@@ -1,7 +1,7 @@
 import "server-only";
 
 import { createDecipheriv } from "node:crypto";
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 /**
  * Server-only S3 access for project imagery.
@@ -149,4 +149,67 @@ function guessContentType(key: string): string {
     default:
       return "application/octet-stream";
   }
+}
+
+/* ── Upload ─────────────────────────────────────────────────────────────────
+   The Angular uploader used `Key: file.name`, so two uploads called plot.jpg
+   silently overwrote each other, and it validated neither type nor size.
+   ───────────────────────────────────────────────────────────────────────── */
+
+export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
+
+export const MAX_UPLOAD_BYTES = 6 * 1024 * 1024; // 6 MB
+
+const EXTENSION_BY_TYPE: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+};
+
+export type UploadResult =
+  | { ok: true; key: string; url: string }
+  | { ok: false; reason: "type" | "size" | "failed" };
+
+/** Content-hashed key: identical bytes de-duplicate, different bytes never collide. */
+export async function uploadProjectImage(file: File): Promise<UploadResult> {
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type as (typeof ALLOWED_IMAGE_TYPES)[number])) {
+    return { ok: false, reason: "type" };
+  }
+  if (file.size > MAX_UPLOAD_BYTES || file.size === 0) {
+    return { ok: false, reason: "size" };
+  }
+
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  const hash = Array.from(new Uint8Array(digest))
+    .slice(0, 16)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  // Flat key (no slashes) so the /api/media/[...key] round-trip stays unambiguous.
+  const key = `project-${hash}.${EXTENSION_BY_TYPE[file.type]}`;
+
+  try {
+    const client = await getClient();
+    await client.send(
+      new PutObjectCommand({
+        Bucket: S3_BUCKET,
+        Key: key,
+        Body: bytes,
+        ContentType: file.type,
+        CacheControl: "public, max-age=31536000, immutable",
+      }),
+    );
+  } catch (error) {
+    console.error("S3 upload failed", error);
+    return { ok: false, reason: "failed" };
+  }
+
+  return {
+    ok: true,
+    key,
+    // Stored on the record for parity with the existing data, though the site
+    // renders through /api/media because the bucket is private.
+    url: `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${encodeURIComponent(key)}`,
+  };
 }

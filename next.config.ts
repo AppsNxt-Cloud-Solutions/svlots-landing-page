@@ -24,6 +24,13 @@ const legacyRedirects = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
 
+  experimental: {
+    serverActions: {
+      // Project image uploads; the default 1MB is below a typical photo.
+      bodySizeLimit: "8mb",
+    },
+  },
+
   images: {
     // Next 16 restricts `qualities` to [75] by default; we serve a couple of tiers.
     qualities: [70, 75, 85],
