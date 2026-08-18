@@ -31,17 +31,50 @@ const LEGACY_IV = process.env.LEGACY_S3_CRED_IV ?? "";
 
 type Credentials = { accessKeyId: string; secretAccessKey: string };
 
+/** AES-128-CBC requires exactly 16 bytes for both the key and the IV. */
+const AES_128_BYTES = 16;
+
+/**
+ * Validates the configured key and IV before use.
+ *
+ * Without this, a malformed value surfaces as `ERR_CRYPTO_INVALID_IV` from deep
+ * inside node:crypto, which says nothing about which environment variable is
+ * wrong. A stray missing newline in .env.local once concatenated the IV with the
+ * following assignment, producing a 77-byte "IV" and exactly that opaque error.
+ */
+function assertAesLength(label: string, value: string): void {
+  const bytes = Buffer.byteLength(value, "utf8");
+  if (bytes !== AES_128_BYTES) {
+    throw new Error(
+      `${label} must be exactly ${AES_128_BYTES} bytes for AES-128-CBC, but is ${bytes}. ` +
+        `Check .env.local for a missing newline — a value that runs into the next ` +
+        `assignment produces exactly this. Received ${bytes} bytes.`,
+    );
+  }
+}
+
 /** AES-128-CBC, matching the scheme the Angular client used. */
 function decrypt(base64: string, key: string, iv: string): string {
+  assertAesLength("LEGACY_S3_CRED_KEY", key);
+  assertAesLength("LEGACY_S3_CRED_IV", iv);
+
   const decipher = createDecipheriv(
     "aes-128-cbc",
     Buffer.from(key, "utf8"),
     Buffer.from(iv, "utf8"),
   );
-  return Buffer.concat([
+  const plaintext = Buffer.concat([
     decipher.update(Buffer.from(base64, "base64")),
     decipher.final(),
   ]).toString("utf8");
+
+  if (!plaintext) {
+    throw new Error(
+      "Decryption produced an empty value. The legacy key/IV may no longer match " +
+        "what the API is using.",
+    );
+  }
+  return plaintext;
 }
 
 async function fetchLegacyCredentials(): Promise<Credentials> {

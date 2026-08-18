@@ -49,7 +49,21 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error(`Failed to stream S3 object "${objectKey}"`, error);
-    return new Response("Upstream error", { status: 502 });
+    // Distinguish "we are misconfigured" from "the object is unavailable", so the
+    // log says which one without needing to read a crypto stack trace.
+    const message = error instanceof Error ? error.message : String(error);
+    const isConfig =
+      message.includes("must be exactly") ||
+      message.includes("No S3 credentials") ||
+      message.includes("no longer match");
+
+    console.error(
+      isConfig
+        ? `[api/media] CONFIGURATION ERROR — cannot decrypt S3 credentials: ${message}`
+        : `[api/media] Failed to stream "${objectKey}": ${message}`,
+    );
+    return new Response(isConfig ? "Media not configured" : "Upstream error", {
+      status: isConfig ? 500 : 502,
+    });
   }
 }
