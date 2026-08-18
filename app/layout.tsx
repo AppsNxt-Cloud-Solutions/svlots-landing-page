@@ -1,11 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MobileActionBar } from "@/components/layout/mobile-action-bar";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { OrganisationJsonLd, WebSiteJsonLd } from "@/components/seo/json-ld";
 import { site } from "@/lib/site";
 import "./globals.css";
+
+/** Neutralises the reveal primitives' initial hidden state. */
+const MOTION_FALLBACK_CSS =
+  '[data-motion="reveal"]{opacity:1!important;transform:none!important;filter:none!important}';
 
 /* Self-hosted by next/font — no request to Google, no layout shift.
    The Angular site loaded Roboto from the Google CDN then overrode it with
@@ -30,6 +37,15 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
+  alternates: { canonical: "/" },
+  keywords: [
+    "SV Lots",
+    "open plots Tumkur",
+    "land surveying Tumkur",
+    "property valuation Karnataka",
+    "layout development Tumkur",
+    "real estate Tumkur",
+  ],
   authors: [{ name: site.legalName }],
   openGraph: {
     type: "website",
@@ -61,11 +77,28 @@ export default function RootLayout({
           <style
             // biome-ignore lint/security/noDangerouslySetInnerHtml: static literal, no interpolation
             dangerouslySetInnerHTML={{
-              __html:
-                '[data-motion="reveal"]{opacity:1!important;transform:none!important;filter:none!important}',
+              __html: MOTION_FALLBACK_CSS,
             }}
           />
         </noscript>
+        {/* <noscript> only covers scripting being unavailable. If scripting is
+            enabled but an app chunk fails to load, hydration never runs and the
+            reveal primitives stay at opacity 0 — a blank page. This inline
+            script cannot itself fail to load, so it clears those states unless
+            hydration reports in. */}
+        <style
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static literal, no interpolation
+          dangerouslySetInnerHTML={{
+            __html: `[data-motion-fallback] ${MOTION_FALLBACK_CSS}`,
+          }}
+        />
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static literal, no interpolation
+          dangerouslySetInnerHTML={{
+            __html:
+              "window.__svlotsHydrated=false;setTimeout(function(){if(!window.__svlotsHydrated){document.documentElement.setAttribute('data-motion-fallback','')}},3000)",
+          }}
+        />
       </head>
       <body className="flex min-h-dvh flex-col bg-surface pb-16 antialiased lg:pb-0">
         <SmoothScroll />
@@ -81,6 +114,10 @@ export default function RootLayout({
         </main>
         <Footer />
         <MobileActionBar />
+        <OrganisationJsonLd />
+        <WebSiteJsonLd />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

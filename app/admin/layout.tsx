@@ -44,7 +44,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <p className="text-sm text-ink-500">
               {session.name || session.email}
               {session.role && (
-                <span className="ml-2 text-xs text-ink-400">({session.role})</span>
+                <span className="ml-2 text-xs text-ink-500">({session.role})</span>
               )}
             </p>
             <form action={signOut}>

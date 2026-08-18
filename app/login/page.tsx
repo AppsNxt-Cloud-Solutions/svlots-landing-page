@@ -42,7 +42,7 @@ export default function LoginPage() {
           </Suspense>
         </div>
 
-        <p className="mt-6 text-center text-xs text-ink-400">
+        <p className="mt-6 text-center text-xs text-ink-500">
           Trouble signing in? Email{" "}
           <a href={`mailto:${site.email}`} className="underline">
             {site.email}

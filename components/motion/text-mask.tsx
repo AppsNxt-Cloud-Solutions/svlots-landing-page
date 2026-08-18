@@ -13,6 +13,16 @@ type TextMaskProps = {
   delay?: number;
   /** Words to render in the gold accent colour (0-indexed). */
   accentWords?: number[];
+  /**
+   * true  — words rise out of a clipped line (the fuller effect).
+   * false — words are painted immediately and only drift up.
+   *
+   * Use false for anything above the fold. A clipped, transparent headline is
+   * not "painted" as far as Largest Contentful Paint is concerned, so the mask
+   * pushes LCP out by the whole animation duration — measured at +0.7s and
+   * -5 Lighthouse points on the home hero.
+   */
+  mask?: boolean;
 };
 
 /**
@@ -26,9 +36,10 @@ export function TextMask({
   text,
   as = "h1",
   className,
-  gap = 0.075,
-  delay = 0.1,
+  gap = 0.045,
+  delay = 0.05,
   accentWords = [],
+  mask = true,
 }: TextMaskProps) {
   const reduced = useReducedMotion();
   const Tag = as;
@@ -68,15 +79,18 @@ export function TextMask({
         {words.map(({ word, key, accent: isAccent, delay: wordDelay, last }) => (
           <span
             key={key}
-            className="inline-block overflow-hidden pb-[0.12em] align-bottom"
+            className={cn(
+              "inline-block pb-[0.12em] align-bottom",
+              mask && "overflow-hidden",
+            )}
           >
             <motion.span
               data-motion="reveal"
               className={cn("inline-block", isAccent && "text-gold-500")}
-              initial={{ y: "110%", opacity: 0 }}
+              initial={mask ? { y: "110%", opacity: 0 } : { y: "22%" }}
               animate={{ y: "0%", opacity: 1 }}
               transition={{
-                duration: 0.85,
+                duration: mask ? 0.75 : 0.6,
                 delay: wordDelay,
                 ease: [0.16, 1, 0.3, 1],
               }}

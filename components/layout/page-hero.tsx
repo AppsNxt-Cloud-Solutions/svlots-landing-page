@@ -73,6 +73,7 @@ export function PageHero({
           text={title}
           as="h1"
           accentWords={accentWords}
+          mask={false}
           className={cn(
             "mt-5 text-5xl text-white",
             align === "center" ? "mx-auto max-w-4xl" : "max-w-4xl",

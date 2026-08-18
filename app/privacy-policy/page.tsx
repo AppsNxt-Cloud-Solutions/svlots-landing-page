@@ -7,6 +7,7 @@ import { formattedAddress, site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: `How ${site.legalName} collects, uses and protects the personal information you share through this website.`,
+  alternates: { canonical: "/privacy-policy" },
 };
 
 /**

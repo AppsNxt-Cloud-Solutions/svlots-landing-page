@@ -22,8 +22,11 @@
   --color-ink-100: #f1f4f7;
 
   /* ── Gold (the brand accent) — existing rgb(189,150,102) ──────────────── */
-  --color-gold-700: #8a6636;
-  --color-gold-600: #a87f4f;
+  /* Text-on-light steps. gold-600 is 5.2:1 on white, gold-700 is 7.0:1.
+     gold-500 and lighter are FILL/BORDER only — gold-500 is 2.7:1 on white,
+     which fails even the large-text threshold. */
+  --color-gold-700: #6f5129;
+  --color-gold-600: #8a6636;
   --color-gold-500: #bd9666;
   --color-gold-400: #d0ad82;
   --color-gold-300: #e3c79a;

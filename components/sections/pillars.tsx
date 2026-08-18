@@ -24,7 +24,7 @@ export function Pillars() {
                     className="size-6"
                   />
                 </span>
-                <p className="mt-7 font-display text-xs tracking-[0.2em] text-ink-400">
+                <p className="mt-7 font-display text-xs tracking-[0.2em] text-ink-500">
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <h3 className="mt-2 text-xl">{pillar.title}</h3>

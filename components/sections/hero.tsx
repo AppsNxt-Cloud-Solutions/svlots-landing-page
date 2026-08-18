@@ -78,14 +78,17 @@ export function Hero() {
             text={hero.title}
             as="h1"
             accentWords={hero.accentWords}
+            mask={false}
             className="mt-6 max-w-4xl text-7xl text-white"
           />
 
-          <Reveal delay={0.55} className="mt-7 max-w-xl">
-            <p className="text-lg leading-relaxed text-ink-200">{hero.intro}</p>
-          </Reveal>
+          {/* Not wrapped in Reveal: this is the LCP element, and an initial
+              opacity of 0 delays the paint by the whole animation duration. */}
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-200">
+            {hero.intro}
+          </p>
 
-          <Reveal delay={0.7} className="mt-9 flex flex-wrap items-center gap-4">
+          <Reveal delay={0.3} className="mt-9 flex flex-wrap items-center gap-4">
             <ButtonLink href="/projects" size="lg">
               View our projects
             </ButtonLink>

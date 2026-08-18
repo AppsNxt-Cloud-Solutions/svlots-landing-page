@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Insights",
   description:
     "Practical guidance on land investment, documentation and the Karnataka property market from the SV Lots team.",
+  alternates: { canonical: "/insights" },
 };
 
 export default function InsightsPage() {
@@ -46,7 +47,7 @@ export default function InsightsPage() {
                 <p className="flex flex-wrap items-center gap-3 text-xs font-semibold tracking-[0.16em] text-gold-600 uppercase">
                   {lead.category}
                   <span aria-hidden="true" className="h-px w-6 rule-gold" />
-                  <span className="text-ink-400 normal-case tracking-normal">
+                  <span className="text-ink-500 normal-case tracking-normal">
                     {formatArticleDate(lead.date)} · {lead.readingMinutes} min read
                   </span>
                 </p>
@@ -91,7 +92,7 @@ export default function InsightsPage() {
                     <p className="mt-3 text-sm leading-relaxed text-ink-600">
                       {article.excerpt}
                     </p>
-                    <p className="mt-4 text-xs text-ink-400">
+                    <p className="mt-4 text-xs text-ink-500">
                       {formatArticleDate(article.date)} · {article.readingMinutes} min
                       read
                     </p>

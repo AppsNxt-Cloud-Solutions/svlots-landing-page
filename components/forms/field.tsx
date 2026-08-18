@@ -45,7 +45,7 @@ export function Field({
           {error}
         </p>
       ) : hint ? (
-        <p id={`${id}-hint`} className="mt-2 text-xs text-ink-400">
+        <p id={`${id}-hint`} className="mt-2 text-xs text-ink-500">
           {hint}
         </p>
       ) : null}

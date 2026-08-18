@@ -60,10 +60,10 @@ export function Footer() {
                 aria-hidden="true"
                 className="mt-0.5 size-4 shrink-0 text-gold-500"
               />
-              <span className="flex flex-col gap-1">
+              <span className="flex flex-col">
                 <a
                   href={telHref}
-                  className="text-ink-400 transition-colors hover:text-white"
+                  className="inline-flex min-h-11 items-center text-ink-400 transition-colors hover:text-white"
                 >
                   {site.phone.display}
                 </a>
@@ -71,7 +71,7 @@ export function Footer() {
                   href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-ink-500 transition-colors hover:text-gold-400"
+                  className="inline-flex min-h-11 items-center text-xs text-ink-400 transition-colors hover:text-gold-300"
                 >
                   Message on WhatsApp
                 </a>
@@ -83,7 +83,7 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="container-page flex flex-col items-center justify-between gap-4 py-6 text-xs text-ink-500 sm:flex-row">
+        <div className="container-page flex flex-col items-center justify-between gap-4 py-6 text-xs text-ink-400 sm:flex-row">
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>

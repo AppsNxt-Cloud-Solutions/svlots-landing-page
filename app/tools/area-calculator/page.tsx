@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Land Area Calculator",
   description:
     "Work out the area of an irregular plot from its side lengths and diagonals. Results in square metres, square feet, guntha and acres.",
+  alternates: { canonical: "/tools/area-calculator" },
 };
 
 const steps = [
@@ -53,7 +54,7 @@ export default function AreaCalculatorPage() {
           <ol className="mt-12 grid gap-px overflow-hidden rounded-card border border-ink-200 bg-ink-200 md:grid-cols-3">
             {steps.map((step, index) => (
               <li key={step.title} className="bg-surface p-7">
-                <p className="font-display text-3xl text-gold-500 tabular-nums">
+                <p className="font-display text-3xl text-gold-600 tabular-nums">
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <h3 className="mt-4 text-lg">{step.title}</h3>

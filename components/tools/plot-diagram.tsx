@@ -32,7 +32,7 @@ export function PlotDiagram({
   if (!points) {
     return (
       <div className="grid aspect-[46/34] w-full place-items-center rounded-card border border-dashed border-ink-300 bg-surface-alt">
-        <p className="max-w-56 text-center text-sm text-ink-400">
+        <p className="max-w-56 text-center text-sm text-ink-500">
           Enter the lengths and the plot is drawn here, to scale.
         </p>
       </div>

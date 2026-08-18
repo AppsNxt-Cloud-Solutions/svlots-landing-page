@@ -20,6 +20,13 @@ export function SmoothScroll() {
   const pathname = usePathname();
   const lenisRef = useRef<Lenis | null>(null);
 
+  // Tells the inline fallback in the document head that hydration succeeded, so
+  // it leaves the reveal animations alone. See app/layout.tsx.
+  useEffect(() => {
+    (window as unknown as { __svlotsHydrated?: boolean }).__svlotsHydrated = true;
+    document.documentElement.removeAttribute("data-motion-fallback");
+  }, []);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 

@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "Property Models",
   description:
     "Five property models from SV Lots — Revenue, Layout, Rental, Sites and Building. Capture a property's details, add media, and generate a professional flyer you can download and share.",
+  alternates: { canonical: "/property-models" },
 };
 
 const exampleFlyers = [
@@ -52,7 +53,7 @@ export default function PropertyModelsPage() {
             {flyerSteps.map((step, index) => (
               <StaggerItem key={step.title} className="bg-surface">
                 <div className="h-full p-7">
-                  <p className="font-display text-3xl text-gold-500 tabular-nums">
+                  <p className="font-display text-3xl text-gold-600 tabular-nums">
                     {String(index + 1).padStart(2, "0")}
                   </p>
                   <h3 className="mt-4 text-lg">{step.title}</h3>
@@ -125,7 +126,7 @@ export default function PropertyModelsPage() {
                           <ArrowUpRight aria-hidden="true" className="size-4" />
                         </ButtonLink>
                       ) : (
-                        <span className="text-sm text-ink-400">Coming soon</span>
+                        <span className="text-sm text-ink-500">Coming soon</span>
                       )}
                     </div>
                   </div>

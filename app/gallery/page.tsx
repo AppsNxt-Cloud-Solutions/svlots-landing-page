@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Gallery",
   description:
     "Photography from SV Lots projects — Prestige Raintree Park in Whitefield, Sowparnika Euphoria, and survey work across Tumkur district.",
+  alternates: { canonical: "/gallery" },
 };
 
 const prestige: GalleryItem[] = [

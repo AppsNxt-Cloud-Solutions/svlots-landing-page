@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/layout/page-hero";
+import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { Prose } from "@/components/ui/prose";
 import { Container, Section } from "@/components/ui/section";
@@ -24,6 +25,7 @@ export async function generateMetadata(
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: `/insights/${slug}` },
     openGraph: {
       type: "article",
       title: article.title,
@@ -43,11 +45,24 @@ export default async function ArticlePage(props: PageProps<"/insights/[slug]">) 
 
   return (
     <>
+      <ArticleJsonLd
+        title={article.title}
+        description={article.excerpt}
+        date={article.date}
+        slug={article.slug}
+      />
+      <BreadcrumbJsonLd
+        trail={[
+          { name: "Home", path: "/" },
+          { name: "Insights", path: "/insights" },
+          { name: article.title, path: `/insights/${article.slug}` },
+        ]}
+      />
       <PageHero
         eyebrow={article.category}
         title={article.title}
         intro={
-          <span className="text-sm text-ink-400">
+          <span className="text-sm text-ink-500">
             {formatArticleDate(article.date)} · {article.readingMinutes} min read
           </span>
         }

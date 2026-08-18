@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "About Us",
   description:
     "SV Lots is a Tumkur-based real estate platform led by three decades of civil engineering experience — maximising property value through documentation, location, access and sustainability.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
@@ -118,7 +119,7 @@ export default function AboutPage() {
                   </div>
 
                   <div>
-                    <p className="font-display text-xs tracking-[0.2em] text-ink-400">
+                    <p className="font-display text-xs tracking-[0.2em] text-ink-500">
                       {String(index + 1).padStart(2, "0")}
                     </p>
                     <h3 className="mt-2 text-3xl">{leader.name}</h3>
@@ -178,7 +179,7 @@ export default function AboutPage() {
                 {mission.commitments.map((commitment, i) => (
                   <StaggerItem key={commitment.slice(0, 20)} y={12}>
                     <div className="flex gap-4">
-                      <span className="font-display text-sm text-gold-500 tabular-nums">
+                      <span className="font-display text-sm text-gold-400 tabular-nums">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <p className="text-[0.95rem] leading-relaxed text-ink-300">

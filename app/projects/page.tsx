@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Projects",
   description:
     "Residential and commercial projects represented by SV Lots across Bengaluru and Tumkur district — filter by location and property type.",
+  alternates: { canonical: "/projects" },
 };
 
 /** Catalogue is fetched server-side and revalidated every 5 minutes. */

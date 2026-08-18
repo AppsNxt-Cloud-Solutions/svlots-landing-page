@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BreadcrumbJsonLd, ProjectJsonLd } from "@/components/seo/json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, Eyebrow, Section } from "@/components/ui/section";
 import { getProject, getProjects } from "@/lib/api/svlots";
 import { mediaUrl } from "@/lib/media";
+import { site } from "@/lib/site";
 import { absoluteUrl } from "@/lib/utils";
 
 export const revalidate = 300;
@@ -28,6 +30,7 @@ export async function generateMetadata(
     description:
       project.description ||
       `${project.title}${project.location ? ` in ${project.location}` : ""} — represented by SV Lots.`,
+    alternates: { canonical: `/projects/${slug}` },
     openGraph: {
       title: project.title,
       description: project.description,
@@ -43,6 +46,20 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
 
   return (
     <>
+      <ProjectJsonLd
+        title={project.title}
+        description={project.description}
+        location={project.location}
+        image={project.fileName ? mediaUrl(project.fileName) : undefined}
+        url={`${site.url}/projects/${project.slug}`}
+      />
+      <BreadcrumbJsonLd
+        trail={[
+          { name: "Home", path: "/" },
+          { name: "Projects", path: "/projects" },
+          { name: project.title, path: `/projects/${project.slug}` },
+        ]}
+      />
       <section className="relative isolate flex min-h-[62svh] items-end overflow-hidden bg-ink-950 pt-18">
         {project.fileName && (
           <>

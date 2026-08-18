@@ -13,6 +13,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import surveyPlans from "@/assets/images/sections/survey-plans.webp";
 import { PageHero } from "@/components/layout/page-hero";
+import { ServiceListJsonLd } from "@/components/seo/json-ld";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
   title: "Services",
   description:
     "Precision land surveying, property valuation, infrastructure consultancy, supervision, technical Vastu, smart technology and general insurance — from SV Lots in Tumkur, Karnataka.",
+  alternates: { canonical: "/services" },
 };
 
 const icons: Record<Service["icon"], ReactNode> = {
@@ -40,6 +42,7 @@ const icons: Record<Service["icon"], ReactNode> = {
 export default function ServicesPage() {
   return (
     <>
+      <ServiceListJsonLd services={services} />
       <PageHero
         eyebrow="What we do"
         title="Nine service lines, one technical standard"

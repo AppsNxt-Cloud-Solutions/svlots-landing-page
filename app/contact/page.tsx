@@ -11,6 +11,7 @@ import { formattedAddress, site, telHref, whatsappHref } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Contact Us",
   description: `Talk to ${site.legalName} about land, layouts, survey or valuation. Call ${site.phone.display} or send an enquiry — our office is in Tumkur, Karnataka.`,
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

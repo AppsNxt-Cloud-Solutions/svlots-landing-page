@@ -274,7 +274,7 @@ export function AreaCalculator() {
                 aria-hidden="true"
                 className={cn(
                   "mt-0.5 size-4 shrink-0",
-                  result.reason === "incomplete" ? "text-ink-400" : "text-danger",
+                  result.reason === "incomplete" ? "text-ink-500" : "text-danger",
                 )}
               />
               <div>
