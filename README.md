@@ -73,3 +73,4 @@ domain. The router uses path-based URLs; Vercel handles that automatically.
 
 Legacy Angular URLs (`/main`, `/about-us`, `/contactus`, `/projectcards`, `/blog`, `/knowmore`,
 `/calculator`, `/projectform`, `/loginmodule/login`, …) are redirected in `next.config.ts`.
+
