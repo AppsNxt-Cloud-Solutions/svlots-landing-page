@@ -55,6 +55,19 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
+  // Unset until real tokens are added to the environment — a site can't be
+  // verified in Search Console or Bing Webmaster Tools (and therefore has no
+  // indexing/query data) without one. Add GOOGLE_SITE_VERIFICATION /
+  // BING_SITE_VERIFICATION to .env.local and Vercel's project env once the
+  // properties are created.
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION && {
+      google: process.env.GOOGLE_SITE_VERIFICATION,
+    }),
+    ...(process.env.BING_SITE_VERIFICATION && {
+      other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION },
+    }),
+  },
 };
 
 export const viewport: Viewport = {
