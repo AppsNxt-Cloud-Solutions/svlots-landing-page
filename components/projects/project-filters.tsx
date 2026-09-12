@@ -39,8 +39,14 @@ export function ProjectFilters({
   const hasFilters = Boolean(activeLocation || activeType);
   const hasQuery = Boolean(rawLocation || rawType);
 
+  // Build the next query from the live URL, not from `params`. `params` is a
+  // snapshot from the last completed render, so two selects changed back to
+  // back — before React re-renders in between — would both branch off the
+  // same stale snapshot and the second router.push would silently discard
+  // the first change. window.location.search is updated synchronously by
+  // each router.push, so it never goes stale between rapid selections.
   function update(key: string, value: string) {
-    const next = new URLSearchParams(params.toString());
+    const next = new URLSearchParams(window.location.search);
     if (value) next.set(key, value);
     else next.delete(key);
     const query = next.toString();

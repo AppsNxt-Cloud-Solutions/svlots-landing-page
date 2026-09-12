@@ -33,7 +33,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <nav aria-label="Admin">
               <Link
                 href="/admin/projects"
-                className="text-sm font-medium text-ink-700 transition-colors hover:text-gold-700"
+                aria-current="page"
+                className="text-sm font-semibold text-gold-700"
               >
                 Projects
               </Link>

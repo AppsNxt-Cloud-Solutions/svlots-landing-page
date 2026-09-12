@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { type ReactNode, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 type StaggerProps = {
@@ -24,15 +24,21 @@ export function Stagger({
   amount = 0.2,
 }: StaggerProps) {
   const reduced = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount });
 
   if (reduced) return <div className={className}>{children}</div>;
 
+  // `animate`, not `whileInView`. With whileInView the container has no resolved
+  // animate state, so a child that mounts after the reveal — a project card
+  // returning when a filter is cleared — inherits `hidden` with nowhere to go
+  // and stays at opacity 0 forever.
   return (
     <motion.div
+      ref={ref}
       className={className}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount }}
+      animate={inView ? "visible" : "hidden"}
       variants={{
         hidden: {},
         visible: { transition: { staggerChildren: gap, delayChildren: delay } },

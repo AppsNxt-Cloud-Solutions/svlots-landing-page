@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, TriangleAlert } from "lucide-react";
+import { Eye, EyeOff, Loader2, TriangleAlert } from "lucide-react";
 import { useActionState, useEffect, useId, useState } from "react";
 import { signIn } from "@/app/login/actions";
 import { initialLoginState } from "@/app/login/state";
@@ -21,6 +21,7 @@ export function LoginForm() {
     if (target.startsWith("/admin")) setNext(target);
   }, []);
   const errors = state.errors ?? {};
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form action={formAction} className="mt-8" noValidate>
@@ -54,15 +55,30 @@ export function LoginForm() {
         </Field>
 
         <Field id={`${ids}-password`} label="Password" error={errors.password} required>
-          <input
-            id={`${ids}-password`}
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            aria-invalid={Boolean(errors.password)}
-            className={cn(inputClasses, fieldBorder(errors.password))}
-            placeholder="••••••••"
-          />
+          <div className="relative">
+            <input
+              id={`${ids}-password`}
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              aria-invalid={Boolean(errors.password)}
+              className={cn(inputClasses, "pr-11", fieldBorder(errors.password))}
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
+              className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-ink-500 hover:text-ink-900"
+            >
+              {showPassword ? (
+                <EyeOff aria-hidden="true" className="size-4" />
+              ) : (
+                <Eye aria-hidden="true" className="size-4" />
+              )}
+            </button>
+          </div>
         </Field>
       </div>
 
