@@ -55,6 +55,12 @@ export function Header() {
             <Phone aria-hidden="true" className="size-3.5 text-gold-400" />
             {site.phone.display}
           </a>
+          <Link
+            href="/login"
+            className="hidden items-center px-2 text-sm font-medium text-ink-200 transition-colors hover:text-gold-400 lg:flex"
+          >
+            Login
+          </Link>
           <ButtonLink
             href="/contact"
             size="sm"
@@ -265,6 +271,18 @@ function MobileNav({ pathname }: { pathname: string }) {
                 )}
               </div>
             ))}
+            <Link
+              href="/login"
+              aria-current={isActive("/login", pathname) ? "page" : undefined}
+              className={cn(
+                "block rounded-lg px-4 py-3 text-lg transition-colors",
+                isActive("/login", pathname)
+                  ? "text-gold-400"
+                  : "text-ink-100 hover:bg-white/5",
+              )}
+            >
+              Login
+            </Link>
           </nav>
 
           <div className="shrink-0 border-t border-white/10 p-5">
