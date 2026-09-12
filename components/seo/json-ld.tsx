@@ -36,6 +36,12 @@ export function OrganisationJsonLd() {
         telephone: site.phone.e164,
         slogan: site.tagline,
         description: site.description,
+        // Google's rich-result guidance for LocalBusiness/Organization wants
+        // both `logo` (brand mark) and `image` (representative photo) — the
+        // brand mark is the only asset available until real office/site
+        // photography is supplied.
+        logo: `${site.url}/icon.png`,
+        image: `${site.url}/icon.png`,
         address: {
           "@type": "PostalAddress",
           streetAddress: site.address.line1,
