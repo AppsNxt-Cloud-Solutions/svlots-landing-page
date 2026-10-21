@@ -40,6 +40,16 @@ export const site = {
     name: "AppsNxt Cloud Solutions",
   },
 
+  /**
+   * The CRM SV Lots operates for itself and for other real-estate businesses.
+   * The legal pages cover it, and the SV Lots Meta app (WhatsApp, Lead Ads)
+   * points its privacy, terms and data-deletion URLs at this site.
+   */
+  crm: {
+    name: "Bhoomi CRM",
+    url: "https://crm.svlots.com",
+  },
+
   /** Sibling products the "Get Access" CTAs point at. */
   external: {
     revenueModel: "https://sathyananda.balajitransports.in",
@@ -103,5 +113,6 @@ export const footerNav = {
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms of Use", href: "/terms-of-use" },
+    { label: "Data Deletion", href: "/data-deletion" },
   ],
 };

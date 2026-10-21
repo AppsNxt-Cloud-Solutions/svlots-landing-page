@@ -27,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
       { url: `${base}/privacy-policy`, changeFrequency: "yearly", priority: 0.2 },
       { url: `${base}/terms-of-use`, changeFrequency: "yearly", priority: 0.2 },
+      { url: `${base}/data-deletion`, changeFrequency: "yearly", priority: 0.2 },
     ] satisfies MetadataRoute.Sitemap
   ).map((entry) => ({ ...entry, lastModified: now }));
 
