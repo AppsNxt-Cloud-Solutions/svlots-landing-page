@@ -2,11 +2,14 @@
 
 import { submitServiceRequest } from "@/lib/api/svlots";
 import { emailConfigured, sendLeadEmail } from "@/lib/email";
+import { crmEnquiry } from "@/content/crm";
 import { services } from "@/content/services";
 import { type LeadState, MIN_FILL_MS, leadSchema } from "@/lib/validation/lead";
 
 function serviceTitle(slug: string | undefined): string {
   if (!slug) return "General enquiry";
+  // Not a Services card: the product page's "Talk to us" form.
+  if (slug === crmEnquiry.slug) return crmEnquiry.title;
   return services.find((service) => service.slug === slug)?.title ?? "General enquiry";
 }
 
