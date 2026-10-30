@@ -80,6 +80,25 @@ export function WebSiteJsonLd() {
   );
 }
 
+/** The Bhoomi CRM product page. Free while in early access, hence the zero offer. */
+export function SoftwareApplicationJsonLd({ description }: { description: string }) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: site.crm.name,
+        url: `${site.url}/crm`,
+        description,
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+        publisher: { "@id": ORGANISATION_ID },
+      }}
+    />
+  );
+}
+
 export function ServiceListJsonLd({
   services,
 }: {

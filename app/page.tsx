@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CrmTeaser } from "@/components/sections/crm-teaser";
 import { CtaBand } from "@/components/sections/cta-band";
 import { FeaturedProject } from "@/components/sections/featured-project";
 import { Hero } from "@/components/sections/hero";
@@ -32,6 +33,7 @@ export default function Home() {
       <FeaturedProject />
       <ModelsTeaser />
       <ServicesStrip />
+      <CrmTeaser />
       <CtaBand />
     </>
   );

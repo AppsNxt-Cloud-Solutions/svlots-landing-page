@@ -1,7 +1,14 @@
 "use client";
 
 import { CheckCircle2, Loader2, TriangleAlert } from "lucide-react";
-import { useActionState, useEffect, useId, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useActionState,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { submitLead } from "@/app/contact/actions";
 import { Field, fieldBorder, inputClasses } from "@/components/forms/field";
 import { Button, ButtonLink } from "@/components/ui/button";
@@ -10,7 +17,18 @@ import { site, telHref, whatsappHref } from "@/lib/site";
 import { initialLeadState } from "@/lib/validation/lead";
 import { cn } from "@/lib/utils";
 
-export function ContactForm() {
+/**
+ * `enquiry` fixes what the enquiry is about — the Bhoomi CRM page sends every
+ * lead as "Bhoomi CRM" — in place of the "What is this about?" picker.
+ */
+export function ContactForm({
+  enquiry,
+  successActions,
+}: {
+  enquiry?: { slug: string; title: string; messagePlaceholder?: string };
+  /** Replaces the default "Browse projects / Back to home" links after sending. */
+  successActions?: ReactNode;
+} = {}) {
   const [state, formAction, pending] = useActionState(submitLead, initialLeadState);
   const ids = useId();
 
@@ -52,12 +70,16 @@ export function ContactForm() {
           {state.message}
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <ButtonLink href="/projects" variant="secondary">
-            Browse projects
-          </ButtonLink>
-          <ButtonLink href="/" variant="ghost">
-            Back to home
-          </ButtonLink>
+          {successActions ?? (
+            <>
+              <ButtonLink href="/projects" variant="secondary">
+                Browse projects
+              </ButtonLink>
+              <ButtonLink href="/" variant="ghost">
+                Back to home
+              </ButtonLink>
+            </>
+          )}
         </div>
       </div>
     );
@@ -171,26 +193,30 @@ export function ContactForm() {
           />
         </Field>
 
-        <Field
-          id={`${ids}-service`}
-          label="What is this about?"
-          className="sm:col-span-2"
-        >
-          <select
+        {enquiry ? (
+          <input type="hidden" name="service" value={enquiry.slug} />
+        ) : (
+          <Field
             id={`${ids}-service`}
-            name="service"
-            value={values.service || selectedService}
-            onChange={(event) => setSelectedService(event.target.value)}
-            className={cn(inputClasses, fieldBorder(), "appearance-none")}
+            label="What is this about?"
+            className="sm:col-span-2"
           >
-            <option value="">General enquiry</option>
-            {services.map((service) => (
-              <option key={service.slug} value={service.slug}>
-                {service.title}
-              </option>
-            ))}
-          </select>
-        </Field>
+            <select
+              id={`${ids}-service`}
+              name="service"
+              value={values.service || selectedService}
+              onChange={(event) => setSelectedService(event.target.value)}
+              className={cn(inputClasses, fieldBorder(), "appearance-none")}
+            >
+              <option value="">General enquiry</option>
+              {services.map((service) => (
+                <option key={service.slug} value={service.slug}>
+                  {service.title}
+                </option>
+              ))}
+            </select>
+          </Field>
+        )}
 
         <Field
           id={`${ids}-message`}
@@ -207,7 +233,10 @@ export function ContactForm() {
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? `${ids}-message-error` : undefined}
             className={cn(inputClasses, fieldBorder(errors.message), "resize-y")}
-            placeholder="Tell us about the property, the location, or what you are looking for."
+            placeholder={
+              enquiry?.messagePlaceholder ??
+              "Tell us about the property, the location, or what you are looking for."
+            }
           />
         </Field>
       </div>

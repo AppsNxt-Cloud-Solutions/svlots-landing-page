@@ -75,7 +75,22 @@ export type NavItem = {
 
 export const primaryNav: NavItem[] = [
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      {
+        label: "All services",
+        href: "/services",
+        description: "Survey, valuation, infrastructure, supervision and more",
+      },
+      {
+        label: "Bhoomi CRM",
+        href: "/crm",
+        description: "The CRM for real estate consultants, free during early access",
+      },
+    ],
+  },
   { label: "Projects", href: "/projects" },
   {
     label: "Property Models",
@@ -108,6 +123,7 @@ export const footerNav = {
     { label: "Gallery", href: "/gallery" },
     { label: "Insights", href: "/insights" },
     { label: "Area Calculator", href: "/tools/area-calculator" },
+    { label: "Bhoomi CRM", href: "/crm" },
     { label: "Contact Us", href: "/contact" },
   ],
   legal: [

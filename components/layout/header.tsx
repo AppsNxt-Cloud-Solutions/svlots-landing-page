@@ -129,7 +129,10 @@ function NavDropdown({
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
-  const active = isActive(item.href, pathname);
+  // A page reached through the menu (e.g. /crm under Services) marks the menu.
+  const active =
+    isActive(item.href, pathname) ||
+    (item.children?.some((child) => isActive(child.href, pathname)) ?? false);
 
   useEffect(() => {
     if (!open) return;

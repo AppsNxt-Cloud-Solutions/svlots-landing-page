@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 /** Fixed, not the build date: the date a policy changed is part of the policy. */
-const LAST_UPDATED = "20 October 2026";
+const LAST_UPDATED = "29 October 2026";
 
 /**
  * ⚠️  REVIEW REQUIRED — written to match what svlots.com and the CRM
@@ -127,6 +127,15 @@ export default function PrivacyPolicyPage() {
 
             <h3>3.2 Platform user accounts</h3>
             <ul>
+              <li>
+                <strong>Self-serve sign-up.</strong> When you create a workspace at {crm},
+                we collect your name, work email address, mobile number and the name of
+                your firm, and the password you choose. We use them to create your
+                workspace and its owner account and to verify your email address: we email
+                you a single-use verification link through Resend, and the workspace is
+                created only once that link is used. Sign-ups that are never verified are
+                not turned into accounts.
+              </li>
               <li>
                 <strong>Account details.</strong> Name, work email address, phone number,
                 role and team, and the workspace you belong to.
@@ -318,7 +327,8 @@ export default function PrivacyPolicyPage() {
                 calls on a business's instructions.
               </li>
               <li>
-                To send service emails, such as team invitations and password resets.
+                To send service emails, such as sign-up verification links, team
+                invitations and password resets.
               </li>
               <li>
                 To keep the Platform secure: authenticating users, preventing abuse,
@@ -414,8 +424,8 @@ export default function PrivacyPolicyPage() {
                 <strong>Exotel</strong>: click-to-call telephony and call recordings.
               </li>
               <li>
-                <strong>Resend</strong>: service emails and Website enquiry notifications
-                to our team.
+                <strong>Resend</strong>: service emails, including sign-up verification
+                links, and Website enquiry notifications to our team.
               </li>
               <li>
                 <strong>OpenAI and Google</strong>: the optional AI features in section 5.
